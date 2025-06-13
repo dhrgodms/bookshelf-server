@@ -1,5 +1,6 @@
 package bookshelf.renewal.dto;
 
+import bookshelf.renewal.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,4 +21,16 @@ public class BookDto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pubdate;
+
+    public BookDto(Book book) {
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.publisher = book.getPublisher();
+        this.isbn = book.getIsbn();
+        this.seriesName = book.getSeriesName();
+        this.cover = book.getCover();
+        this.categoryName = book.getCategoryName();
+        this.link = book.getLink();
+        this.pubdate = book.getPubdate();
+    }
 }

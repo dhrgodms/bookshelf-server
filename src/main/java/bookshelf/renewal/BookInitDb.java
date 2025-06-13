@@ -76,9 +76,9 @@ public class BookInitDb {
         public void shelfInit() {
             Member userA = em.find(Member.class, 1);
             Member userB = em.find(Member.class, 2);
-            Shelf shelfA = new Shelf("shelfA");
+            Shelf shelfA = new Shelf("shelfA", userA);
             em.persist(shelfA);
-            Shelf shelfB = new Shelf("shelfB");
+            Shelf shelfB = new Shelf("shelfB", userB);
             em.persist(shelfB);
 
             MemberShelf memberShelf1 = new MemberShelf(userA, shelfA);

@@ -12,7 +12,7 @@ public class SwaggerConfig {
     public GroupedOpenApi boardGroupedOpenApi() {
         return GroupedOpenApi.builder()
                 .group("api")
-                .pathsToMatch("/api/v1/**")
+                .pathsToMatch("/api/**")
                 .addOpenApiCustomizer(
                         openApi -> openApi.setInfo(
                                 new Info()

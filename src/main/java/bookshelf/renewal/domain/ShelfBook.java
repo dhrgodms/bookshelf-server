@@ -23,5 +23,7 @@ public class ShelfBook extends BaseTimeEntity {
     public ShelfBook(Book book, Shelf shelf) {
         this.book = book;
         this.shelf = shelf;
+        this.book.addShelfBook(this);
+        this.shelf.addShelfBook(this);
     }
 }

@@ -86,4 +86,12 @@ public class Book extends BaseTimeEntity{
     public LocalDate getPubdate() {
         return pubdate;
     }
+
+    public void addMemberBook(MemberBook memberBook) {
+        this.memberBooks.add(memberBook);
+    }
+
+    public void addShelfBook(ShelfBook shelfBook) {
+        this.shelfBooks.add(shelfBook);
+    }
 }

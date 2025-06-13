@@ -19,6 +19,9 @@ public class Member extends BaseTimeEntity{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberBook> memberBooks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "creater", cascade = CascadeType.ALL)
+    private List<Shelf> ownShelves = new ArrayList<>();
+
     public Member(String username) {
         this.username = username;
     }
@@ -36,5 +39,17 @@ public class Member extends BaseTimeEntity{
 
     public String getPassword() {
         return password;
+    }
+
+    public void addMemberShelf(MemberShelf memberShelf) {
+        this.memberShelves.add(memberShelf);
+    }
+
+    public void addMemberBook(MemberBook memberBook) {
+        this.memberBooks.add(memberBook);
+    }
+
+    public void addOwnShelf(Shelf shelf) {
+        this.ownShelves.add(shelf);
     }
 }

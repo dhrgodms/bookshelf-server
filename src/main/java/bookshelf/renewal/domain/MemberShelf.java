@@ -17,11 +17,13 @@ public class MemberShelf extends BaseDetailEntity{
     @JoinColumn(name = "shelf_id")
     private Shelf shelf;
 
-    public MemberShelf() {
+    protected MemberShelf() {
     }
 
     public MemberShelf(Member member, Shelf shelf) {
         this.member = member;
         this.shelf = shelf;
+        this.member.addMemberShelf(this);
+        this.shelf.addMemberShelf(this);
     }
 }

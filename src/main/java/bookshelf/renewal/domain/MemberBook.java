@@ -23,5 +23,7 @@ public class MemberBook extends BaseTimeEntity{
     public MemberBook(Member member, Book book) {
         this.member = member;
         this.book = book;
+        this.member.addMemberBook(this);
+        this.book.addMemberBook(this);
     }
 }
