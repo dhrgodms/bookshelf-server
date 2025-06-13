@@ -13,7 +13,7 @@ public class MemberBook extends BaseTimeEntity{
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
 

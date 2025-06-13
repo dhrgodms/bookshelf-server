@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/aladin")
+@RequestMapping("/api/v1/aladin")
 @RequiredArgsConstructor
 public class AladinController {
 

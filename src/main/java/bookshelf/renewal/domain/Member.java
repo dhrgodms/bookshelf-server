@@ -9,7 +9,7 @@ import java.util.List;
 public class Member extends BaseTimeEntity{
     @Id @GeneratedValue
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private String password;
 
@@ -19,10 +19,22 @@ public class Member extends BaseTimeEntity{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberBook> memberBooks = new ArrayList<>();
 
-    public Member(String name) {
-        this.name = name;
+    public Member(String username) {
+        this.username = username;
     }
 
     public Member() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
