@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +30,10 @@ public class ShelfController {
     private final MemberRepository memberRepository;
     private final MemberShelfRepository memberShelfRepository;
 
+
     //생성
     //전체 조회
-
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody ShelfCreateDto shelfCreateDto){
         Member findMember = memberRepository.findByUsername(shelfCreateDto.getUsername());
         Shelf shelf = new Shelf(shelfCreateDto.getShelfDto().getShelfName(), findMember);
@@ -43,8 +45,10 @@ public class ShelfController {
 
         return ResponseEntity.ok("[책장 저장]"+ saveShelf.getShelfName());
     }
-    @GetMapping("/")
-    public ResponseEntity<?> getShelves(Pageable pageable){
+
+    // 전체 조회
+    @GetMapping
+    public ResponseEntity<?> getShelves(@PageableDefault(size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable){
         Page<Shelf> shelves = shelfRepository.findAll(pageable);
         return ResponseEntity.ok(shelves.map(ShelfResponseDto::new));
     }
