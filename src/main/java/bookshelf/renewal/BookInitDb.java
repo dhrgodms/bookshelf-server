@@ -93,17 +93,11 @@ public class BookInitDb {
             Member userB = em.find(Member.class, 2);
             Book book1 = em.find(Book.class, 1);
             Book book2 = em.find(Book.class, 2);
-            Shelf shelf1 = em.find(Shelf.class, 1);
-            Shelf shelf2 = em.find(Shelf.class, 2);
 
             MemberBook memberBook1 = new MemberBook(userA, book1);
             em.persist(memberBook1);
             MemberBook memberBook2 = new MemberBook(userB, book2);
             em.persist(memberBook2);
-
-
-
-
         }
 
     }

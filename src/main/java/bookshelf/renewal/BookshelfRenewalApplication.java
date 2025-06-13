@@ -13,13 +13,13 @@ import java.util.UUID;
 @SpringBootApplication
 public class BookshelfRenewalApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BookshelfRenewalApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BookshelfRenewalApplication.class, args);
+    }
 
-	@Bean
-	public AuditorAware<String> auditorProvider() {
-		return () -> Optional.of(UUID.randomUUID().toString());
-	}
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return () -> Optional.of(UUID.randomUUID().toString());
+    }
 
 }
