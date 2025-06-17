@@ -3,11 +3,14 @@ package bookshelf.renewal.controller;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberShelf;
 import bookshelf.renewal.domain.Shelf;
+import bookshelf.renewal.dto.ShelfCreateDto;
+import bookshelf.renewal.dto.ShelfUpdateDto;
 import bookshelf.renewal.exception.ShelfNotExistException;
 import bookshelf.renewal.repository.MemberRepository;
 import bookshelf.renewal.repository.MemberShelfRepository;
 import bookshelf.renewal.repository.ShelfRepository;
 import bookshelf.renewal.service.MemberService;
+import bookshelf.renewal.service.ShelfService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,95 +31,38 @@ import org.springframework.web.bind.annotation.*;
 public class ShelfController {
 
     private final ShelfRepository shelfRepository;
-    private final MemberService memberService;
-    private final MemberShelfRepository memberShelfRepository;
+    private final ShelfService shelfService;
 
 
     //생성
     //전체 조회
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ShelfCreateDto shelfCreateDto){
-        Member findMember = memberService.getMemberByUsername(shelfCreateDto.getUsername());
-        Shelf shelf = new Shelf(shelfCreateDto.getShelfDto().getShelfName(), findMember);
-
-        Shelf saveShelf = shelfRepository.save(shelf);
-
-        MemberShelf memberShelf = new MemberShelf(findMember, shelf);
-        memberShelfRepository.save(memberShelf);
-
-        return ResponseEntity.ok("[책장 저장]"+ saveShelf.getShelfName());
+        return ResponseEntity.ok(shelfService.save(shelfCreateDto));
     }
 
     // 전체 조회
     @GetMapping
     public ResponseEntity<?> getShelves(@PageableDefault(size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Shelf> shelves = shelfRepository.findAll(pageable);
-        return ResponseEntity.ok(shelves.map(ShelfResponseDto::new));
+        return ResponseEntity.ok(shelfService.getShelfAll(pageable));
     }
 
     //단건 조회
     @GetMapping("/{id}")
     public ResponseEntity<?> getShelf(@PathVariable("id") Long id) {
-        Shelf shelf = shelfRepository.findById(id).orElseThrow(()-> new ShelfNotExistException(id));
-        return ResponseEntity.ok(new ShelfResponseDto(shelf));
+        return ResponseEntity.ok(shelfService.getShelfById(id));
     }
 
     @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ShelfUpdateDto shelfUpdateDto) {
-        Shelf findShelf = shelfRepository.findById(id).orElseThrow(() -> new ShelfNotExistException(id));
-        //주인이라면 버튼 활성화(front)
-        //주인인지 확인(back)
-        String username = shelfUpdateDto.getUsername();
-        if (findShelf.getCreater().getUsername().equals(username)){
-            //정상로직
-            findShelf.setShelfName(shelfUpdateDto.getChangedShelfName());
-            findShelf.setShelfMemo(shelfUpdateDto.getChangedShelfMemo());
-        } else{
-            throw new IllegalArgumentException("[ERROR][PUT]/shelves/" + id + "  Permission Denied");
-        }
-
-        return ResponseEntity.ok("[책장 수정]" + findShelf.getShelfName() + " 변경 사항 저장");
+        return ResponseEntity.ok(shelfService.updateShelf(id, shelfUpdateDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        Shelf shelf = shelfRepository.findById(id).orElseThrow(() -> new ShelfNotExistException(id));
-        // TODO 만약 username이 주인이면 삭제하도록 수정
-        shelfRepository.delete(shelf);
-        return ResponseEntity.ok("[책장 삭제]" + id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id, @RequestBody String username) {
+        return ResponseEntity.ok(shelfService.deleteShelf(id, username));
     }
 
-    @Data
-    static class ShelfCreateDto {
-        private String username;
-        private ShelfDto shelfDto;
-    }
 
-    @Data
-    static class ShelfDto {
-        private String shelfName;
-        private String shelfMemo;
-    }
-
-    @Data
-    static class ShelfResponseDto {
-        private Long id;
-        private String shelfName;
-        private String shelfMemo;
-
-        public ShelfResponseDto(Shelf shelf) {
-            this.id = shelf.getId();
-            this.shelfName = shelf.getShelfName();
-            this.shelfMemo = shelf.getShelfMemo();
-        }
-    }
-
-    @Data
-    static class ShelfUpdateDto {
-        private String username;
-        private Long id;
-        private String changedShelfName;
-        private String changedShelfMemo;
-    }
 }

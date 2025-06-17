@@ -69,10 +69,7 @@ public class AladinController {
             if (bookDto.getPublisher().equals("알라딘 이벤트") || bookDto.getAuthor().equals("") || bookDto.getIsbn().equals("")) {
                 continue;
             }
-
             bookDtos.add(bookDto);
-
-
         }
 
         return bookDtos;
