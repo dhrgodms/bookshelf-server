@@ -85,6 +85,9 @@ public class BookInitDb {
 
             em.persist(memberShelf1);
             em.persist(memberShelf2);
+
+            MemberShelf memberShelfAdd = new MemberShelf(userA, shelfB);
+            em.persist(memberShelfAdd);
         }
 
         public void memberBookInit(){

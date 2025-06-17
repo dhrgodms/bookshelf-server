@@ -26,4 +26,16 @@ public class MemberShelf extends BaseDetailEntity{
         this.member.addMemberShelf(this);
         this.shelf.addMemberShelf(this);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Shelf getShelf() {
+        return shelf;
+    }
 }

@@ -14,8 +14,8 @@ public class Shelf extends BaseDetailEntity{
     private String shelfMemo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creater_id")
-    private Member creater;
+    @JoinColumn(name = "creator_id")
+    private Member creator;
 
     @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
     private List<ShelfBook> shelfBooks = new ArrayList<>();
@@ -27,13 +27,13 @@ public class Shelf extends BaseDetailEntity{
 
     }
 
-    public Shelf(String shelfName, Member creater) {
+    public Shelf(String shelfName, Member creator) {
         this.shelfName = shelfName;
-        this.creater = creater;
+        this.creator = creator;
     }
 
-    public Member getCreater() {
-        return creater;
+    public Member getCreator() {
+        return creator;
     }
 
     public Long getId() {
@@ -50,6 +50,10 @@ public class Shelf extends BaseDetailEntity{
 
     public List<ShelfBook> getShelfBooks() {
         return shelfBooks;
+    }
+
+    public List<MemberShelf> getMemberShelves() {
+        return memberShelves;
     }
 
     public void setShelfName(String shelfName) {

@@ -9,6 +9,10 @@ public class MemberDto {
 
     public MemberDto(){}
 
+    public MemberDto(String username) {
+        this.username = username;
+    }
+
     public MemberDto(Member member) {
         this.username = member.getUsername();
     }

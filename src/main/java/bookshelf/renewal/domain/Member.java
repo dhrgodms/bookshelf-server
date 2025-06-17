@@ -19,7 +19,7 @@ public class Member extends BaseTimeEntity{
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberBook> memberBooks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "creater", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Shelf> ownShelves = new ArrayList<>();
 
     public Member(String username) {
