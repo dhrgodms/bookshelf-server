@@ -23,23 +23,15 @@ public class MemberShelfService {
     private final MemberService memberService;
 
     public Page<MemberShelfDto> getMemberShelvesByMember(MemberDto memberDto, Pageable pageable) {
-        String username = memberDto.getUsername();
-        Member findMember = memberService.getMemberByUsername(username);
-        Page<MemberShelf> memberShelves = memberShelfRepository.findAllByMember(findMember, pageable);
-        return memberShelves.map(MemberShelfDto::new);
+        return memberShelfRepository.findAllByMember(memberDto.getUsername(), pageable);
     }
 
     public MemberShelf getMemberShelfById(Long id) {
-        return getMemberShelf(id);
+        return memberShelfRepository.findMemberShelfById(id).orElseThrow(() -> new MemberShelfNotExistException(id));
     }
-
-    private MemberShelf getMemberShelf(Long id) {
-        return memberShelfRepository.findById(id).orElseThrow(() -> new MemberShelfNotExistException(id));
-    }
-
 
     public String deleteMemberShelf(Long id) {
-        MemberShelf memberShelf = getMemberShelf(id);
+        MemberShelf memberShelf = getMemberShelfById(id);
         memberShelfRepository.delete(memberShelf);
         log.info("[멤버책장 삭제] {} of {}", memberShelf.getShelf().getShelfName(), memberShelf.getMember().getUsername());
         return "[멤버책장 삭제] " + memberShelf.getShelf().getShelfName() + " of " + memberShelf.getMember().getUsername();
@@ -58,10 +50,7 @@ public class MemberShelfService {
     }
 
     public Page<MemberShelfDto> getMemberShelvesByOwnMember(MemberDto memberDto, Pageable pageable) {
-        String username = memberDto.getUsername();
-        Member findMember = memberService.getMemberByUsername(username);
-        Page<MemberShelf> memberShelves = memberShelfRepository.findAllOwnByMemberAndShelfCreator(findMember,findMember, pageable);
-        return memberShelves.map(MemberShelfDto::new);
+        return memberShelfRepository.findAllOwnShelves(memberDto.getUsername(), pageable);
     }
 
     public Page<MemberShelfDto> getMemberShelvesByUsername(MemberDto memberDto, Pageable pageable) {
@@ -70,9 +59,6 @@ public class MemberShelfService {
     }
 
     public Page<MemberShelfDto> getMemberShelvesBySubscribe(MemberDto memberDto, Pageable pageable) {
-        String username = memberDto.getUsername();
-//        Member findMember = memberService.getMemberByUsername(username);
-        Page<MemberShelf> memberShelves = memberShelfRepository.findAllSubscribeByMemberUsernameAndShelfCreatorUsernameNot(username, username, pageable);
-        return memberShelves.map(MemberShelfDto::new);
+        return memberShelfRepository.findAllNotCreator(memberDto.getUsername(), pageable);
     }
 }

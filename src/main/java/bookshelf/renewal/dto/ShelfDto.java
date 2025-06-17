@@ -1,6 +1,7 @@
 package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.Shelf;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,10 +18,26 @@ public class ShelfDto {
     public ShelfDto() {
     }
 
+    public ShelfDto(String shelfName, String shelfMemo, MemberDto creator, List<String> memberShelves) {
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
+        this.creator = creator;
+        this.memberShelves = memberShelves;
+    }
+
+    @QueryProjection
     public ShelfDto(String shelfName, MemberDto creator) {
         this.shelfName = shelfName;
         this.creator = creator;
     }
+
+    @QueryProjection
+    public ShelfDto(String shelfName, String shelfMemo, MemberDto creator) {
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
+        this.creator = creator;
+    }
+
 
     public ShelfDto(Shelf shelf) {
         this.shelfName = shelf.getShelfName();

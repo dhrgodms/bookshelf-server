@@ -24,7 +24,7 @@ public class MemberShelfController {
 
     @GetMapping
     public ResponseEntity<Page<MemberShelfDto>> getAll(@RequestBody MemberDto memberDto, Pageable pageable) {
-        return ResponseEntity.ok(memberShelfService.getMemberShelvesByUsername(memberDto, pageable));
+        return ResponseEntity.ok(memberShelfService.getMemberShelvesByMember(memberDto, pageable));
     }
 
     //단건 조회(id)

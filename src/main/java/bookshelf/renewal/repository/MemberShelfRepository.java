@@ -4,24 +4,23 @@ import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberShelf;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface MemberShelfRepository extends JpaRepository<MemberShelf, Long> {
+import java.util.Optional;
 
-//    @Query("select ms from MemberShelf ms join fetch ms.shelf join fetch ms.member")
-    @EntityGraph(attributePaths = {"shelf"})
-    Page<MemberShelf> findAllByMember(Member member, Pageable pageable);
+public interface MemberShelfRepository extends JpaRepository<MemberShelf, Long>, MemberShelfCustomRepository {
 
-//    @Query("select ms from MemberShelf ms join fetch ms.shelf where ms.shelf.creator = :member")
-    @EntityGraph(attributePaths = {"shelf", "shelf.creator"})
+    @Query("select ms from MemberShelf ms" +
+            " join fetch ms.member" +
+            " join fetch ms.shelf where ms.id = :id")
+    Optional<MemberShelf> findMemberShelfById(@Param("id") Long id);
+
     Page<MemberShelf> findAllOwnByMemberAndShelfCreator(Member member, Member creator, Pageable pageable); //내가 만든 것만 가져오기
 
-    //    @Query("select ms from MemberShelf ms join fetch ms.shelf where ms.shelf.creator <> :member and ms.shelf.member = :member")
-    @EntityGraph(attributePaths = {"member", "shelf", "shelf.creator"})
-    Page<MemberShelf> findAllSubscribeByMemberUsernameAndShelfCreatorUsernameNot(String username, String creatorName, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"member", "shelf"})
     Page<MemberShelf> findAllByMemberUsername(String username, Pageable pageable);
 
+//    Page<MemberShelf> findAllByMember(String username, Pageable pageable);
 }
