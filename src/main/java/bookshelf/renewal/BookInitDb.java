@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 책 2권
@@ -47,7 +46,7 @@ public class BookInitDb {
             String link =  "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=364683901&amp;partner=openAPI&amp;start=api";
             LocalDate pubdate = LocalDate.of(2025, 5, 23);
 
-            Book book1 = new Book(title, author, publisher, isbn, seriesName, cover, categoryName, link, pubdate);
+            Book book1 = new Book(title, author, publisher, isbn, seriesName, cover, link, categoryName, pubdate);
             em.persist(book1);
         }
 
@@ -62,7 +61,7 @@ public class BookInitDb {
             String link =  "https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=307692409&amp;partner=openAPI&amp;start=api";
             LocalDate pubdate = LocalDate.of(2022, 12, 22);
 
-            Book book2 = new Book(title, author, publisher, isbn, seriesName, cover, categoryName, link, pubdate);
+            Book book2 = new Book(title, author, publisher, isbn, seriesName, cover, link, categoryName, pubdate);
             em.persist(book2);
         }
 

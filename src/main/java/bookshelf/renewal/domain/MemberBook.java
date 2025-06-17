@@ -51,4 +51,24 @@ public class MemberBook extends BaseTimeEntity{
     public String getMemberUsername() {
         return member.getUsername();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public boolean isThumb() {
+        return thumb;
+    }
+
+    public boolean isHave() {
+        return have;
+    }
 }

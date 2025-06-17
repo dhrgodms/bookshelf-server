@@ -4,14 +4,16 @@ import bookshelf.renewal.domain.Book;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberBook;
 import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.MemberBookDto;
+import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.exception.MemberBookNotExistException;
 import bookshelf.renewal.repository.MemberBookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Service
@@ -57,11 +59,38 @@ public class MemberBookService {
         return "[책 좋아요] " + memberBook.getBookTitle() + " of " + memberBook.getMemberUsername();
     }
 
-    public MemberBook getMemberBook(Member member, Book book) {
+
+    public MemberBook getNewMemberBook(Member member, Book book) {
         return memberBookRepository.save(new MemberBook(member, book));
     }
 
     public MemberBook getMemberBookByMemberAndBook(Member member, Book book) {
-        return memberBookRepository.findByMemberAndBook(member, book).orElseGet(() -> getMemberBook(member, book));
+        MemberBook memberBook = memberBookRepository.findByMemberAndBook(member, book).orElseGet(() -> getNewMemberBook(member, book));
+        return memberBook;
+    }
+
+    public Page<MemberBookDto> getMemberBooksByMember(MemberDto memberDto, Pageable pageable) {
+        String username = memberDto.getUsername();
+        Member findMember = memberService.getMemberByUsername(username);
+        Page<MemberBook> memberBooks = memberBookRepository.findAllByMember(findMember, pageable);
+        return memberBooks.map(MemberBookDto::new);
+    }
+
+    public Page<MemberBookDto> getMemberBooksByMemberAndHave(MemberDto memberDto, Pageable pageable) {
+        String username = memberDto.getUsername();
+        Member findMember = memberService.getMemberByUsername(username);
+        Page<MemberBook> memberBooks = memberBookRepository.findAllByMemberAndHave(findMember, pageable);
+        return memberBooks.map(MemberBookDto::new);
+    }
+
+    public Page<MemberBookDto> getMemberBooksByMemberAndThumb(MemberDto memberDto, Pageable pageable) {
+        String username = memberDto.getUsername();
+        Member findMember = memberService.getMemberByUsername(username);
+        Page<MemberBook> memberBooks = memberBookRepository.findAllByMemberAndThumb(findMember, pageable);
+        return memberBooks.map(MemberBookDto::new);
+    }
+
+    public MemberBookDto getMemberBookById(Long id) {
+        return new MemberBookDto(memberBookRepository.findById(id).orElseThrow(() -> new MemberBookNotExistException(id)));
     }
 }

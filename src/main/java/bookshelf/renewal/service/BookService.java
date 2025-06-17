@@ -31,9 +31,9 @@ public class BookService {
 
 
     @NotNull
-    public Page<Book> getBooks(Pageable pageable) {
+    public Page<BookDto> getBooks(Pageable pageable) {
         Page<Book> books = bookRepository.findAll(pageable);
-        return books;
+        return books.map(BookDto::new);
     }
 
     public Book getBookOrElseThrow(Long id) {
