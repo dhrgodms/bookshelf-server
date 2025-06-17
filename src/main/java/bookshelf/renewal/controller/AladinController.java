@@ -64,7 +64,7 @@ public class AladinController {
         List<BookDto> bookDtos = new ArrayList<>();
 
         for (JsonNode book : searchedBooks) {
-            BookDto bookDto = getBookDto(book);
+            BookDto bookDto = BookDto.getBookDto(book);
 
             if (bookDto.getPublisher().equals("알라딘 이벤트") || bookDto.getAuthor().equals("") || bookDto.getIsbn().equals("")) {
                 continue;
@@ -72,22 +72,11 @@ public class AladinController {
 
             bookDtos.add(bookDto);
 
+
         }
 
         return bookDtos;
     }
 
-    private BookDto getBookDto(JsonNode book){
-        String title = book.get("title").asText();
-        String author = book.get("author").asText();
-        String publisher = book.get("publisher").asText();
-        String isbn = book.get("isbn").asText();
-        String seriesName = book.has("seriesInfo") ? book.get("seriesInfo").get("seriesName").asText() : "";
-        String cover = book.get("cover").asText();
-        String categoryName = book.get("categoryName").asText();
-        String link = book.get("link").asText();
-        String pubDate = book.get("pubDate").asText();
-        return new BookDto(title, author, publisher, isbn, seriesName, cover, categoryName, link, LocalDate.parse(pubDate));
-    }
 }
 

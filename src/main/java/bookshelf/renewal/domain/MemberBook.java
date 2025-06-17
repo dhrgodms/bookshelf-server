@@ -17,6 +17,9 @@ public class MemberBook extends BaseTimeEntity{
     @JoinColumn(name="member_id")
     private Member member;
 
+    private boolean thumb;
+    private boolean have;
+
     public MemberBook() {
     }
 
@@ -25,5 +28,27 @@ public class MemberBook extends BaseTimeEntity{
         this.book = book;
         this.member.addMemberBook(this);
         this.book.addMemberBook(this);
+    }
+
+    public boolean reverseHave() {
+        this.have = !this.have;
+        return have;
+    }
+
+    public boolean reverseThumb() {
+        this.thumb = !this.thumb;
+        return thumb;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public String getBookTitle() {
+        return book.getTitle();
+    }
+
+    public String getMemberUsername() {
+        return member.getUsername();
     }
 }

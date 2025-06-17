@@ -31,9 +31,14 @@ public class Book extends BaseTimeEntity{
     @OneToMany(mappedBy = "book")
     private List<ShelfBook> shelfBooks = new ArrayList<>();
 
-    public Book() {
+    protected Book() {
 
     }
+
+    public Book(String title){
+        this.title = title;
+    }
+
 
     public Book(String title, String author, String publisher, String isbn, String seriesName, String cover, String link, String categoryName, LocalDate pubdate) {
         this.title = title;

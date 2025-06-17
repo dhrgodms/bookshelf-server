@@ -7,6 +7,7 @@ import bookshelf.renewal.exception.ShelfNotExistException;
 import bookshelf.renewal.repository.MemberRepository;
 import bookshelf.renewal.repository.MemberShelfRepository;
 import bookshelf.renewal.repository.ShelfRepository;
+import bookshelf.renewal.service.MemberService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class ShelfController {
 
     private final ShelfRepository shelfRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final MemberShelfRepository memberShelfRepository;
 
 
@@ -35,7 +36,7 @@ public class ShelfController {
     //전체 조회
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ShelfCreateDto shelfCreateDto){
-        Member findMember = memberRepository.findByUsername(shelfCreateDto.getUsername());
+        Member findMember = memberService.getMemberByUsername(shelfCreateDto.getUsername());
         Shelf shelf = new Shelf(shelfCreateDto.getShelfDto().getShelfName(), findMember);
 
         Shelf saveShelf = shelfRepository.save(shelf);
