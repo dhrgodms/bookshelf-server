@@ -53,7 +53,7 @@ class MemberBookServiceTest {
 
         //when에서 나올 코드들의 객체 값을 다 넣어줄 코드를 미리 정의하는 역할
         when(memberService.getMemberByUsername(username)).thenReturn(member);
-        when(bookService.getFindBook(dto)).thenReturn(book);
+        when(bookService.getFindBook(dto.getBookDto())).thenReturn(book);
         when(memberBookRepository.findByMemberAndBook(member, book)).thenReturn(Optional.empty());
         when(memberBookRepository.save(any(MemberBook.class))).thenReturn(memberBook);
 

@@ -26,4 +26,16 @@ public class ShelfBook extends BaseTimeEntity {
         this.book.addShelfBook(this);
         this.shelf.addShelfBook(this);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public Shelf getShelf() {
+        return shelf;
+    }
 }

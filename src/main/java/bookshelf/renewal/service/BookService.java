@@ -1,12 +1,10 @@
 package bookshelf.renewal.service;
 
-import bookshelf.renewal.controller.BookController;
 import bookshelf.renewal.domain.Book;
 import bookshelf.renewal.dto.BookDto;
 import bookshelf.renewal.dto.BookSaveRequestDto;
 import bookshelf.renewal.exception.BookNotExistException;
 import bookshelf.renewal.repository.BookRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
@@ -19,11 +17,10 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Book getFindBook(BookSaveRequestDto dto) {
-        Book findBook = bookRepository.findByIsbn(dto.getBookDto().getIsbn())
+    public Book getFindBook(BookDto dto) {
+        Book findBook = bookRepository.findByIsbn(dto.getIsbn())
                 .orElseGet(() -> {
-                    BookDto bookDto = dto.getBookDto();
-                    Book book = new Book(bookDto.getTitle(), bookDto.getAuthor(), bookDto.getPublisher(), bookDto.getIsbn(), bookDto.getSeriesName(), bookDto.getCover(), bookDto.getLink(), bookDto.getCategoryName(), bookDto.getPubdate());
+                    Book book = new Book(dto.getTitle(), dto.getAuthor(), dto.getPublisher(), dto.getIsbn(), dto.getSeriesName(), dto.getCover(), dto.getLink(), dto.getCategoryName(), dto.getPubdate());
                     return bookRepository.save(book);
                 });
         return findBook;
@@ -38,6 +35,22 @@ public class BookService {
 
     public Book getBookOrElseThrow(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new BookNotExistException(id));
+    }
+
+    public Book saveBook(BookSaveRequestDto dto) {
+        BookDto bookDto = dto.getBookDto();
+        Book book = new Book(
+                bookDto.getTitle(),
+                bookDto.getAuthor(),
+                bookDto.getPublisher(),
+                bookDto.getIsbn(),
+                bookDto.getSeriesName(),
+                bookDto.getCover(),
+                bookDto.getLink(),
+                bookDto.getCategoryName(),
+                bookDto.getPubdate()
+        );
+        return bookRepository.save(book);
     }
 
 }

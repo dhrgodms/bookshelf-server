@@ -9,6 +9,7 @@ import java.util.List;
 
 @Data
 public class ShelfDto {
+    private Long id;
     private String shelfName;
     private String shelfMemo;
     private MemberDto creator;
@@ -40,9 +41,14 @@ public class ShelfDto {
 
 
     public ShelfDto(Shelf shelf) {
+        this.id = shelf.getId();
         this.shelfName = shelf.getShelfName();
         this.shelfMemo = shelf.getShelfMemo();
         this.creator = new MemberDto(shelf.getCreator().getUsername());
         this.memberShelves = shelf.getMemberShelves().stream().map(m -> m.getMember().getUsername()).toList();
+    }
+
+    public Long getId() {
+        return id;
     }
 }

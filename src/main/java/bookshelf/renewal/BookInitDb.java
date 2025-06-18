@@ -26,6 +26,7 @@ public class BookInitDb {
         initService.memberInit();
         initService.shelfInit();
         initService.memberBookInit();
+        initService.shelfBookInit();
     }
 
     @Component
@@ -100,6 +101,19 @@ public class BookInitDb {
             em.persist(memberBook1);
             MemberBook memberBook2 = new MemberBook(userB, book2);
             em.persist(memberBook2);
+        }
+
+        public void shelfBookInit() {
+            Shelf shelf1 = em.find(Shelf.class, 1);
+            Shelf shelf2 = em.find(Shelf.class, 2);
+
+            Book book1 = em.find(Book.class, 1);
+            Book book2 = em.find(Book.class, 2);
+
+            ShelfBook shelfBookA = new ShelfBook(book1, shelf1);
+            em.persist(shelfBookA);
+            ShelfBook shelfBookB = new ShelfBook(book2, shelf2);
+            em.persist(shelfBookB);
         }
 
     }

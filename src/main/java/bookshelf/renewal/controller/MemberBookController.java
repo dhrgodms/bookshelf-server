@@ -1,8 +1,11 @@
 package bookshelf.renewal.controller;
 
+import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.MemberBookDto;
 import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.service.MemberBookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +17,33 @@ public class MemberBookController {
 
     private final MemberBookService memberBookService;
 
-    //전체 조회(Member)
+    //소장 전체 조회(Member)
     @GetMapping
     public ResponseEntity<?> getAll(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndHave(memberDto, pageable));
     }
 
+    //like 조회
     @GetMapping("/like")
-    public ResponseEntity<?> getAllLike(@RequestBody MemberDto memberDto, Pageable pageable) {
+    public ResponseEntity<Page<MemberBookDto>> getAllLike(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndThumb(memberDto, pageable));
     }
 
     //단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+    public ResponseEntity<MemberBookDto> get(@PathVariable("id") Long id) {
         return ResponseEntity.ok(memberBookService.getMemberBookById(id));
+    }
+
+    // 책 저장하기
+    @PostMapping
+    public ResponseEntity<String> save(@RequestBody BookSaveRequestDto dto){
+        return ResponseEntity.ok(memberBookService.haveMemberBook(dto));
+    }
+
+    // 책 좋아요 누르기
+    @PostMapping("/like")
+    public ResponseEntity<String> like(@RequestBody BookSaveRequestDto dto){
+        return ResponseEntity.ok(memberBookService.likeMemberBook(dto));
     }
 }

@@ -28,7 +28,7 @@ public class MemberBookService {
     @Transactional
     public String haveMemberBook(BookSaveRequestDto dto) {
         //검색
-        Book findBook = bookService.getFindBook(dto);
+        Book findBook = bookService.getFindBook(dto.getBookDto());
         Member findMember = memberService.getMemberByUsername(dto.getUsername());
 
         MemberBook memberBook = getMemberBookByMemberAndBook(findMember, findBook);
@@ -45,7 +45,7 @@ public class MemberBookService {
     @Transactional
     public String likeMemberBook(BookSaveRequestDto dto) {
         //검색
-        Book findBook = bookService.getFindBook(dto);
+        Book findBook = bookService.getFindBook(dto.getBookDto());
         Member findMember = memberService.getMemberByUsername(dto.getUsername());
 
         MemberBook memberBook = getMemberBookByMemberAndBook(findMember, findBook);

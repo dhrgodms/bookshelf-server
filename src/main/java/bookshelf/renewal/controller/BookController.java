@@ -26,14 +26,10 @@ public class BookController {
     private final MemberBookService memberBookService;
     private final BookService bookService;
 
+    // 책 저장하기
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody BookSaveRequestDto dto){
-        return ResponseEntity.ok(memberBookService.haveMemberBook(dto));
-    }
-
-    @PostMapping("/like")
-    public ResponseEntity<?> like(@RequestBody BookSaveRequestDto dto){
-        return ResponseEntity.ok(memberBookService.likeMemberBook(dto));
+    public ResponseEntity<BookDto> save(@RequestBody BookSaveRequestDto dto){
+        return ResponseEntity.ok(new BookDto(bookService.saveBook(dto)));
     }
 
     @GetMapping
