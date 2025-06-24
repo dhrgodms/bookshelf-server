@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 @Data
 public class BookDto {
+    private Long id;
     private String title;
     private String author;
     private String publisher;
@@ -42,6 +43,20 @@ public class BookDto {
         this.pubdate = pubdate;
     }
 
+    @QueryProjection
+    public BookDto(Long id, String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String link, LocalDate pubdate) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.isbn = isbn;
+        this.seriesName = seriesName;
+        this.cover = cover;
+        this.categoryName = categoryName;
+        this.link = link;
+        this.pubdate = pubdate;
+    }
+
     public BookDto(Book book) {
         this.title = book.getTitle();
         this.author = book.getAuthor();
@@ -53,6 +68,7 @@ public class BookDto {
         this.link = book.getLink();
         this.pubdate = book.getPubdate();
     }
+
 
 
     public static BookDto getBookDto(JsonNode book){

@@ -23,7 +23,7 @@ public class MemberBookController {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMember(memberDto, pageable));
     }
 
-    @GetMapping("/have")
+    @PostMapping("/have")
     public ResponseEntity<Page<MemberBookDto>> getAllHave(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndHave(memberDto, pageable));
     }

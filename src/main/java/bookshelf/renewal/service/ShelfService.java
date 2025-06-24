@@ -82,6 +82,10 @@ public class ShelfService {
         return "[책장 수정]" + findShelf.getShelfName() + " 변경 사항 저장";
     }
 
+    public ShelfDto findShelfWithBooks(Long id, Pageable pageable) {
+        return shelfRepository.findShelfWithBooks(id, pageable);
+    }
+
     @Data
     static class ShelfResponseDto {
         private Long id;

@@ -32,6 +32,12 @@ public class Shelf extends BaseDetailEntity{
         this.creator = creator;
     }
 
+    public Shelf(String shelfName, Member creator, String memo) {
+        this.shelfName = shelfName;
+        this.creator = creator;
+        this.shelfMemo = memo;
+    }
+
     public Member getCreator() {
         return creator;
     }

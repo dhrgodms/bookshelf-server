@@ -76,9 +76,9 @@ public class BookInitDb {
         public void shelfInit() {
             Member userA = em.find(Member.class, 1);
             Member userB = em.find(Member.class, 2);
-            Shelf shelfA = new Shelf("shelfA", userA);
+            Shelf shelfA = new Shelf("shelfA", userA, "userA의 shelfA");
             em.persist(shelfA);
-            Shelf shelfB = new Shelf("shelfB", userB);
+            Shelf shelfB = new Shelf("shelfB", userB,"userB의 shelfB");
             em.persist(shelfB);
 
             MemberShelf memberShelf1 = new MemberShelf(userA, shelfA);
@@ -112,8 +112,10 @@ public class BookInitDb {
 
             ShelfBook shelfBookA = new ShelfBook(book1, shelf1);
             em.persist(shelfBookA);
-            ShelfBook shelfBookB = new ShelfBook(book2, shelf2);
+            ShelfBook shelfBookB = new ShelfBook(book2, shelf1);
             em.persist(shelfBookB);
+            ShelfBook shelfBookC = new ShelfBook(book2, shelf2);
+            em.persist(shelfBookC);
         }
 
     }

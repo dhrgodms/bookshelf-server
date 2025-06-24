@@ -34,7 +34,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
                         new QMemberShelfDto(
                                 ms.id
                                 , new QMemberDto(m.username)
-                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username))
+                                , ms.lastModifiedDate)
                 ).from(ms)
                 .join(ms.member, m)
                 .join(ms.shelf, s)
@@ -60,7 +61,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
                         new QMemberShelfDto(
                                 ms.id
                                 , new QMemberDto(m.username)
-                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username))
+                        , ms.lastModifiedDate)
                 ).from(ms)
                 .where(ms.member.username.eq(username),
                         ms.shelf.creator.username.eq(username))
@@ -90,7 +92,7 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
                         new QMemberShelfDto(
                                 ms.id
                                 , new QMemberDto(m.username)
-                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                , new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)), ms.lastModifiedDate)
                 ).from(ms)
                 .where(ms.member.username.eq(username),
                         ms.shelf.creator.username.ne(username))

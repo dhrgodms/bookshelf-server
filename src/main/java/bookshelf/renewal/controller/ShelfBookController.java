@@ -26,10 +26,12 @@ public class ShelfBookController {
         return ResponseEntity.ok(shelfBookService.getAll(pageable));
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<ShelfBookDto> get(@PathVariable("id") Long id) {
         return ResponseEntity.ok(shelfBookService.getShelfBookById(id));
     }
+
 
 
     @PostMapping

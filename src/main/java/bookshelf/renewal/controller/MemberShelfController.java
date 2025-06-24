@@ -44,7 +44,7 @@ public class MemberShelfController {
         return ResponseEntity.ok(memberShelfService.subscribeShelf(id, memberDto));
     }
 
-    @GetMapping("/own")
+    @PostMapping("/own")
     public ResponseEntity<Page<MemberShelfDto>> getAllOwn(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberShelfService.getMemberShelvesByOwnMember(memberDto, pageable));
     }

@@ -25,10 +25,19 @@ public class MemberBookService {
 
 
 
+
     @Transactional
     public String haveMemberBook(BookSaveRequestDto dto) {
-        //검색
-        MemberBook memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
+
+        MemberBook memberBook = null;
+
+        try {
+            memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
+        } catch (NullPointerException e){
+            Member findMember = memberService.getMemberByUsername(dto.getUsername());
+            Book findBook = bookService.getFindBook(dto.getBookDto());
+            memberBook = saveMemberBook(findMember, findBook);
+        }
 
         if (memberBook.reverseHave()) {
             log.info("[책 저장] {} of {}", memberBook.getBookTitle(), memberBook.getMemberUsername());
@@ -43,6 +52,14 @@ public class MemberBookService {
     public String likeMemberBook(BookSaveRequestDto dto) {
         //검색
         MemberBook memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
+
+        try {
+            memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
+        } catch (NullPointerException e){
+            Member findMember = memberService.getMemberByUsername(dto.getUsername());
+            Book findBook = bookService.getFindBook(dto.getBookDto());
+            memberBook = saveMemberBook(findMember, findBook);
+        }
 
         if (memberBook.reverseThumb()) {
             log.info("[책 좋아요] {} of {}", memberBook.getBookTitle(), memberBook.getMemberUsername());

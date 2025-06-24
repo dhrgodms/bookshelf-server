@@ -15,6 +15,8 @@ public class ShelfDto {
     private MemberDto creator;
 //    private List<ShelfBook> shelfBooks = new ArrayList<>();
     private List<String> memberShelves = new ArrayList<>();
+    private List<BookDto> books = new ArrayList<>();
+    private PageInfoDto pageInfoDto;
 
     public ShelfDto() {
     }
@@ -27,13 +29,15 @@ public class ShelfDto {
     }
 
     @QueryProjection
-    public ShelfDto(String shelfName, MemberDto creator) {
+    public ShelfDto(String shelfName, String shelfMemo, MemberDto creator) {
         this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
         this.creator = creator;
     }
 
     @QueryProjection
-    public ShelfDto(String shelfName, String shelfMemo, MemberDto creator) {
+    public ShelfDto(Long id, String shelfName, String shelfMemo, MemberDto creator) {
+        this.id = id;
         this.shelfName = shelfName;
         this.shelfMemo = shelfMemo;
         this.creator = creator;
