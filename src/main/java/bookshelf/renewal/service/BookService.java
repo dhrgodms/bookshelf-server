@@ -2,7 +2,7 @@ package bookshelf.renewal.service;
 
 import bookshelf.renewal.domain.Book;
 import bookshelf.renewal.dto.BookDto;
-import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.request.BookSaveRequestDto;
 import bookshelf.renewal.exception.BookNotExistException;
 import bookshelf.renewal.repository.BookRepository;
 import lombok.RequiredArgsConstructor;

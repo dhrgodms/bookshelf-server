@@ -1,9 +1,9 @@
 package bookshelf.renewal.controller;
 
 import bookshelf.renewal.dto.MemberDto;
-import bookshelf.renewal.dto.ShelfCreateDto;
+import bookshelf.renewal.dto.request.ShelfCreateDto;
 import bookshelf.renewal.dto.ShelfDto;
-import bookshelf.renewal.dto.ShelfUpdateDto;
+import bookshelf.renewal.dto.request.ShelfUpdateDto;
 import bookshelf.renewal.repository.ShelfRepository;
 import bookshelf.renewal.service.ShelfService;
 import lombok.RequiredArgsConstructor;

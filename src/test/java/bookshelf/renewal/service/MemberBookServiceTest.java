@@ -4,7 +4,7 @@ import bookshelf.renewal.domain.Book;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberBook;
 import bookshelf.renewal.dto.BookDto;
-import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.request.BookSaveRequestDto;
 import bookshelf.renewal.repository.BookRepository;
 import bookshelf.renewal.repository.MemberBookRepository;
 import bookshelf.renewal.repository.MemberRepository;

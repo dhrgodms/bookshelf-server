@@ -2,14 +2,13 @@ package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.Book;
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.AllArgsConstructor;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 public class BookDto {
     private String title;
     private String author;
@@ -30,6 +29,18 @@ public class BookDto {
         this.title = title;
     }
 
+    @QueryProjection
+    public BookDto(String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String link, LocalDate pubdate) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.isbn = isbn;
+        this.seriesName = seriesName;
+        this.cover = cover;
+        this.categoryName = categoryName;
+        this.link = link;
+        this.pubdate = pubdate;
+    }
 
     public BookDto(Book book) {
         this.title = book.getTitle();

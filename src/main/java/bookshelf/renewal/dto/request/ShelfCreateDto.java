@@ -1,5 +1,6 @@
-package bookshelf.renewal.dto;
+package bookshelf.renewal.dto.request;
 
+import bookshelf.renewal.dto.ShelfDto;
 import lombok.Data;
 
 @Data

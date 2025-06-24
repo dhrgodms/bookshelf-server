@@ -3,7 +3,7 @@ package bookshelf.renewal.service;
 import bookshelf.renewal.domain.Book;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberBook;
-import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.request.BookSaveRequestDto;
 import bookshelf.renewal.dto.MemberBookDto;
 import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.exception.MemberBookNotExistException;

@@ -1,6 +1,6 @@
 package bookshelf.renewal.controller;
 
-import bookshelf.renewal.dto.BookSaveRequestDto;
+import bookshelf.renewal.dto.request.BookSaveRequestDto;
 import bookshelf.renewal.dto.MemberBookDto;
 import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.service.MemberBookService;

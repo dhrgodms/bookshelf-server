@@ -2,6 +2,7 @@ package bookshelf.renewal.repository;
 
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberShelf;
+import bookshelf.renewal.repository.custom.MemberShelfCustomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

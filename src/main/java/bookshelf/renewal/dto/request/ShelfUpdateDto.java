@@ -1,4 +1,4 @@
-package bookshelf.renewal.dto;
+package bookshelf.renewal.dto.request;
 
 import lombok.Data;
 

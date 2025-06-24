@@ -1,4 +1,4 @@
-package bookshelf.renewal.repository;
+package bookshelf.renewal.repository.custom;
 
 import bookshelf.renewal.domain.QMember;
 import bookshelf.renewal.domain.QMemberShelf;

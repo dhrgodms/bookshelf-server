@@ -1,4 +1,4 @@
-package bookshelf.renewal.repository;
+package bookshelf.renewal.repository.custom;
 
 import bookshelf.renewal.domain.Book;
 import com.querydsl.jpa.impl.JPAQueryFactory;

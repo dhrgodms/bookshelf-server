@@ -1,5 +1,6 @@
-package bookshelf.renewal.dto;
+package bookshelf.renewal.dto.request;
 
+import bookshelf.renewal.dto.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,6 +9,4 @@ import lombok.Data;
 public class BookSaveRequestDto {
     private BookDto bookDto;
     private String username;
-
-
 }
