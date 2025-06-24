@@ -10,11 +10,16 @@ public class MemberBookNotExistException extends RuntimeException {
 
     public MemberBookNotExistException(String username, Long bookId) {
         super();
-        throw new IllegalArgumentException(msg_prefix + username + "&" + bookId + msg_suffix);
+        throw new IllegalArgumentException(msg_prefix + username + "& bookId: " + bookId + msg_suffix);
     }
 
     public MemberBookNotExistException(Long id) {
         super();
         throw new IllegalArgumentException(msg_prefix + id + msg_suffix);
+    }
+
+    public MemberBookNotExistException(String username, String isbn) {
+        super();
+        throw new IllegalArgumentException(msg_prefix + username + "& bookIsbn: " + isbn + msg_suffix);
     }
 }

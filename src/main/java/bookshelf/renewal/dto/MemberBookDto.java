@@ -1,6 +1,7 @@
 package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.MemberBook;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 @Data
@@ -21,6 +22,7 @@ public class MemberBookDto {
         this.have = memberBook.isHave();
     }
 
+    @QueryProjection
     public MemberBookDto(Long id, String memo, BookDto book, MemberDto member, boolean thumb, boolean have) {
         this.id = id;
         this.memo = memo;

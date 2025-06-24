@@ -19,13 +19,18 @@ public class MemberBookController {
 
     //소장 전체 조회(Member)
     @GetMapping
-    public ResponseEntity<?> getAll(@RequestBody MemberDto memberDto, Pageable pageable) {
+    public ResponseEntity<Page<MemberBookDto>> getAll(@RequestBody MemberDto memberDto, Pageable pageable) {
+        return ResponseEntity.ok(memberBookService.getMemberBooksByMember(memberDto, pageable));
+    }
+
+    @GetMapping("/have")
+    public ResponseEntity<Page<MemberBookDto>> getAllHave(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndHave(memberDto, pageable));
     }
 
     //like 조회
-    @GetMapping("/like")
-    public ResponseEntity<Page<MemberBookDto>> getAllLike(@RequestBody MemberDto memberDto, Pageable pageable) {
+    @GetMapping("/thumb")
+    public ResponseEntity<Page<MemberBookDto>> getAllThumb(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndThumb(memberDto, pageable));
     }
 
@@ -37,7 +42,7 @@ public class MemberBookController {
 
     // 책 저장하기
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody BookSaveRequestDto dto){
+    public ResponseEntity<String> have(@RequestBody BookSaveRequestDto dto){
         return ResponseEntity.ok(memberBookService.haveMemberBook(dto));
     }
 
