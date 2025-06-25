@@ -7,6 +7,7 @@ import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.dto.request.ShelfCreateDto;
 import bookshelf.renewal.dto.ShelfDto;
 import bookshelf.renewal.dto.request.ShelfUpdateDto;
+import bookshelf.renewal.dto.response.SimpleShelfBookDto;
 import bookshelf.renewal.exception.ShelfNotExistException;
 import bookshelf.renewal.repository.MemberShelfRepository;
 import bookshelf.renewal.repository.ShelfRepository;
@@ -27,7 +28,7 @@ public class ShelfService {
     private final MemberService memberService;
 
     private Shelf getNewShelf(ShelfCreateDto shelfCreateDto, Member member){
-        return shelfRepository.save(new Shelf(shelfCreateDto.getShelfDto().getShelfName(), member));
+        return shelfRepository.save(new Shelf(shelfCreateDto.getShelfDto().getShelfName(), member,  shelfCreateDto.getShelfDto().getShelfMemo()));
     }
 
     public String save(ShelfCreateDto shelfCreateDto){
@@ -82,8 +83,12 @@ public class ShelfService {
         return "[책장 수정]" + findShelf.getShelfName() + " 변경 사항 저장";
     }
 
-    public ShelfDto findShelfWithBooks(Long id, Pageable pageable) {
-        return shelfRepository.findShelfWithBooks(id, pageable);
+    public Page<SimpleShelfBookDto> findShelfWithBooks(Long id, Pageable pageable) {
+        return shelfRepository.findShelfBooksWithId(id, pageable);
+    }
+
+    public ShelfDto findShelfWithShelfBooks(Long id, Pageable pageable) {
+        return shelfRepository.findShelfWithShelfBooks(id, pageable);
     }
 
     @Data

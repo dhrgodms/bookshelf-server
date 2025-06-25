@@ -1,9 +1,8 @@
 package bookshelf.renewal.service;
 
-import bookshelf.renewal.domain.Book;
-import bookshelf.renewal.domain.Shelf;
-import bookshelf.renewal.domain.ShelfBook;
+import bookshelf.renewal.domain.*;
 import bookshelf.renewal.dto.ShelfBookDto;
+import bookshelf.renewal.dto.request.ShelfBookHaveDto;
 import bookshelf.renewal.dto.request.ShelfBookRequestDto;
 import bookshelf.renewal.repository.ShelfBookRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +21,8 @@ public class ShelfBookService {
     private final ShelfBookRepository shelfBookRepository;
     private final ShelfService shelfService;
     private final BookService bookService;
+    private final MemberService memberService;
+    private final MemberBookService memberBookService;
 
 
     public Page<ShelfBookDto> getAll(Pageable pageable){
@@ -52,5 +53,14 @@ public class ShelfBookService {
         Optional<ShelfBook> findShelfBook = shelfBookRepository.findById(id);
         shelfBookRepository.delete(findShelfBook.get());
         return id;
+    }
+
+    public ShelfBookDto saveShelfBookById(ShelfBookHaveDto shelfBookHaveDto) {
+        Member member = memberService.getMemberByUsername("userA");
+        Shelf findShelf = shelfService.getShelfById(shelfBookHaveDto.getShelfId());
+        Book findBook = bookService.getFindBook(shelfBookHaveDto.getBookDto());
+        memberBookService.saveMemberBook(member, findBook);
+
+        return new ShelfBookDto(shelfBookRepository.save(new ShelfBook(findBook, findShelf)));
     }
 }

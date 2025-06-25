@@ -40,8 +40,8 @@ public class ShelfController {
 
     //단건 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ShelfDto> getShelf(@PathVariable("id") Long id, Pageable pageable) {
-        return ResponseEntity.ok(shelfService.findShelfWithBooks(id, pageable));
+    public ResponseEntity<ShelfDto> getShelf(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new ShelfDto(shelfService.getShelfById(id)));
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.Shelf;
+import bookshelf.renewal.dto.response.SimpleShelfBookDto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
@@ -16,9 +17,15 @@ public class ShelfDto {
 //    private List<ShelfBook> shelfBooks = new ArrayList<>();
     private List<String> memberShelves = new ArrayList<>();
     private List<BookDto> books = new ArrayList<>();
+    private List<SimpleShelfBookDto> shelfBooks = new ArrayList<>();
     private PageInfoDto pageInfoDto;
 
     public ShelfDto() {
+    }
+
+    public ShelfDto(String shelfName, String shelfMemo) {
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
     }
 
     public ShelfDto(String shelfName, String shelfMemo, MemberDto creator, List<String> memberShelves) {

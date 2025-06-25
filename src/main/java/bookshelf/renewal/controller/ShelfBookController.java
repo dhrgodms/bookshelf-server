@@ -1,7 +1,8 @@
 package bookshelf.renewal.controller;
 
 import bookshelf.renewal.dto.ShelfBookDto;
-import bookshelf.renewal.dto.request.ShelfBookRequestDto;
+import bookshelf.renewal.dto.ShelfDto;
+import bookshelf.renewal.dto.request.ShelfBookHaveDto;
 import bookshelf.renewal.repository.ShelfBookRepository;
 import bookshelf.renewal.service.BookService;
 import bookshelf.renewal.service.ShelfBookService;
@@ -32,11 +33,14 @@ public class ShelfBookController {
         return ResponseEntity.ok(shelfBookService.getShelfBookById(id));
     }
 
-
+    @GetMapping("/shelf/{id}")
+    public ResponseEntity<ShelfDto> getShelfBooks(@PathVariable("id") Long id, Pageable pageable){
+        return ResponseEntity.ok(shelfService.findShelfWithShelfBooks(id, pageable));
+    }
 
     @PostMapping
-    public ResponseEntity<ShelfBookDto> add(@RequestBody ShelfBookRequestDto shelfBookRequestDto) {
-        return ResponseEntity.ok(shelfBookService.saveShelfBook(shelfBookRequestDto));
+    public ResponseEntity<ShelfBookDto> add(@RequestBody ShelfBookHaveDto shelfBookHaveDto) {
+        return ResponseEntity.ok(shelfBookService.saveShelfBookById(shelfBookHaveDto));
     }
 
 
