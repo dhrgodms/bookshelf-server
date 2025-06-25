@@ -91,6 +91,11 @@ public class ShelfService {
         return shelfRepository.findShelfWithShelfBooks(id, pageable);
     }
 
+    public Page<ShelfDto> findShelvesByMember(MemberDto memberDto, Pageable pageable) {
+        return shelfRepository.findShelvesByMember(memberDto.getUsername(), pageable);
+
+    }
+
     @Data
     static class ShelfResponseDto {
         private Long id;

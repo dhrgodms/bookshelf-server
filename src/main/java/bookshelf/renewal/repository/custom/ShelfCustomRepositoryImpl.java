@@ -1,6 +1,7 @@
 package bookshelf.renewal.repository.custom;
 
 import bookshelf.renewal.domain.QBook;
+import bookshelf.renewal.domain.QMember;
 import bookshelf.renewal.domain.QShelf;
 import bookshelf.renewal.domain.QShelfBook;
 import bookshelf.renewal.dto.*;
@@ -161,6 +162,30 @@ public class ShelfCustomRepositoryImpl implements ShelfCustomRepository{
                 .join(sb.shelf, s)
                 .join(sb.book, b)
                 .where(sb.shelf.id.eq(shelfId))
+                .fetchOne();
+
+        return new PageImpl<>(results, pageable, total);
+    }
+
+    @Override
+    public Page<ShelfDto> findShelvesByMember(String username, Pageable pageable) {
+        QShelf s = QShelf.shelf;
+        QMember m = QMember.member;
+        QBook b = QBook.book;
+
+        List<ShelfDto> results = jpaQueryFactory
+                .select(new QShelfDto(
+                        s.id,
+                        s.shelfName,
+                        s.shelfMemo
+                        )).from(s)
+                .where(s.creator.username.eq(username))
+                .fetch();
+
+
+        Long total = jpaQueryFactory.select(s.count())
+                .from(s)
+                .where(s.creator.username.eq(username))
                 .fetchOne();
 
         return new PageImpl<>(results, pageable, total);

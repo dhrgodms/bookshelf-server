@@ -55,5 +55,9 @@ public class ShelfController {
         return ResponseEntity.ok(shelfService.deleteShelf(id, memberDto));
     }
 
+    @PostMapping("/member")
+    public ResponseEntity<Page<ShelfDto>> getShelfByMember(@RequestBody MemberDto memberDto, Pageable pageable) {
+        return ResponseEntity.ok(shelfService.findShelvesByMember(memberDto, pageable));
+    }
 
 }

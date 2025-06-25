@@ -10,4 +10,6 @@ public interface ShelfCustomRepository {
 
     Page<SimpleShelfBookDto> findShelfBooksWithId(Long shelfId, Pageable pageable);
     ShelfDto findShelfWithShelfBooks(Long shelfId, Pageable pageable);
+
+    Page<ShelfDto> findShelvesByMember(String username, Pageable pageable);
 }

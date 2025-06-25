@@ -36,6 +36,13 @@ public class ShelfDto {
     }
 
     @QueryProjection
+    public ShelfDto(Long id, String shelfName, String shelfMemo) {
+        this.id = id;
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
+    }
+
+    @QueryProjection
     public ShelfDto(String shelfName, String shelfMemo, MemberDto creator) {
         this.shelfName = shelfName;
         this.shelfMemo = shelfMemo;

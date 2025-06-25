@@ -30,7 +30,7 @@ public class ShelfBookCustomRepositoryImpl implements ShelfBookCustomRepository{
         List<ShelfBookDto> results = jpaQueryFactory.select(
                         new QShelfBookDto(sb.id,
                                 new QBookDto(sb.book.title, sb.book.author, sb.book.publisher, sb.book.isbn, sb.book.seriesName, sb.book.cover, sb.book.categoryName, sb.book.link, sb.book.pubdate),
-                                new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                new QShelfDto(s.id, s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
                 ).from(sb)
                 .join(sb.book, b)
                 .join(sb.shelf, s)
@@ -55,7 +55,7 @@ public class ShelfBookCustomRepositoryImpl implements ShelfBookCustomRepository{
         List<ShelfBookDto> results = jpaQueryFactory.select(
                         new QShelfBookDto(sb.id,
                                 new QBookDto(sb.book.title, sb.book.author, sb.book.publisher, sb.book.isbn, sb.book.seriesName, sb.book.cover, sb.book.categoryName, sb.book.link, sb.book.pubdate),
-                                new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                new QShelfDto(s.id, s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
                 ).from(sb)
                 .join(sb.book, b)
                 .join(sb.shelf, s)
@@ -82,7 +82,7 @@ public class ShelfBookCustomRepositoryImpl implements ShelfBookCustomRepository{
         List<ShelfBookDto> results = jpaQueryFactory.select(
                         new QShelfBookDto(sb.id,
                                 new QBookDto(sb.book.title, sb.book.author, sb.book.publisher, sb.book.isbn, sb.book.seriesName, sb.book.cover, sb.book.categoryName, sb.book.link, sb.book.pubdate),
-                                new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                new QShelfDto(s.id, s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
                 ).from(sb)
                 .join(sb.book, b)
                 .join(sb.shelf, s)
@@ -109,7 +109,7 @@ public class ShelfBookCustomRepositoryImpl implements ShelfBookCustomRepository{
         ShelfBookDto result = jpaQueryFactory.select(
                         new QShelfBookDto(sb.id,
                                 new QBookDto(sb.book.title, sb.book.author, sb.book.publisher, sb.book.isbn, sb.book.seriesName, sb.book.cover, sb.book.categoryName, sb.book.link, sb.book.pubdate),
-                                new QShelfDto(s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
+                                new QShelfDto(s.id,s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)))
                 ).from(sb)
                 .join(sb.book, b)
                 .join(sb.shelf, s)
