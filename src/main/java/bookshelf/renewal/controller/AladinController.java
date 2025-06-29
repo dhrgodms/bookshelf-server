@@ -6,9 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,17 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.print.Book;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/aladin")
+@RequestMapping("/api/v1/aladin/search")
 @RequiredArgsConstructor
 public class AladinController {
 
@@ -41,8 +33,8 @@ public class AladinController {
     ObjectMapper mapper = new ObjectMapper();
 
 
-    @GetMapping("/search")
-    public ResponseEntity<?> search(@RequestParam String query, @RequestParam int page){
+    @GetMapping
+    public ResponseEntity<?> searchBooks(@RequestParam String query, @RequestParam int page){
         int maxResults = 40;
         String url = apiUrl + "/ttb/api/ItemSearch.aspx?ttbkey=" + apiKey
                 + "&Query=" + query
@@ -51,6 +43,44 @@ public class AladinController {
         RestTemplate restTemplate = new RestTemplate();
         try{
             JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+            List<BookDto> filteredBooks = filterValidBooks(response.get("item"));
+            return ResponseEntity.ok(filteredBooks);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching data from api");
+        }
+
+    }
+
+    @GetMapping("/limit")
+    public ResponseEntity<?> searchBooksLimit(@RequestParam String query, @RequestParam int limit){
+        int maxResults = limit;
+        String url = apiUrl + "/ttb/api/ItemSearch.aspx?ttbkey=" + apiKey
+                + "&Query=" + query
+                + "&MaxResults=" + maxResults + "&start=" + 1 + "&Cover=Big&SearchTarget=Book&output=JS&Version=20131101";
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+            List<BookDto> filteredBooks = filterValidBooks(response.get("item"));
+            return ResponseEntity.ok(filteredBooks);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching data from api");
+        }
+
+    }
+
+    @GetMapping("/isbn")
+    public ResponseEntity<?> searchByIsbn(@RequestParam String isbn){
+        log.info("isbn = {}", isbn);
+        String url = apiUrl + "/ttb/api/ItemLookUp.aspx?ttbkey=" + apiKey
+                + "&itemIdType=ISBN&ItemId=" + isbn + "&output=JS&Version=20131101&OptResult=ebookList,usedList,reviewList";
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            JsonNode response = restTemplate.getForObject(url, JsonNode.class);
+
             List<BookDto> filteredBooks = filterValidBooks(response.get("item"));
             return ResponseEntity.ok(filteredBooks);
         } catch (Exception e) {

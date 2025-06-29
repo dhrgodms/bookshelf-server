@@ -60,4 +60,9 @@ public class ShelfController {
         return ResponseEntity.ok(shelfService.findShelvesByMember(memberDto, pageable));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<ShelfDto>> searchBookByKeyword(@RequestParam("q") String query, Pageable pageable) {
+        return ResponseEntity.ok(shelfService.searchShelvesByKeyword(query, pageable));
+    }
+
 }

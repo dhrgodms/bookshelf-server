@@ -53,4 +53,7 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public Page<BookDto> searchBookByKeyword(String query, Pageable pageable) {
+        return bookRepository.searchBooks(query, pageable);
+    }
 }

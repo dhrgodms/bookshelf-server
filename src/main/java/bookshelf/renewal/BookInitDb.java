@@ -81,6 +81,11 @@ public class BookInitDb {
             Shelf shelfB = new Shelf("shelfB", userB,"userB의 shelfB");
             em.persist(shelfB);
 
+            Shelf shelfC = new Shelf("민음사A", userA, "userA의 민음사A");
+            Shelf shelfD = new Shelf("민음사B", userA, "userA의 민음사B");
+            em.persist(shelfC);
+            em.persist(shelfD);
+
             MemberShelf memberShelf1 = new MemberShelf(userA, shelfA);
             MemberShelf memberShelf2 = new MemberShelf(userB, shelfB);
 

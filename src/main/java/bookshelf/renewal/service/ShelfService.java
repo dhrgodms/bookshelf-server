@@ -96,6 +96,10 @@ public class ShelfService {
 
     }
 
+    public Page<ShelfDto> searchShelvesByKeyword(String query, Pageable pageable) {
+        return shelfRepository.SearchShelves(query, pageable);
+    }
+
     @Data
     static class ShelfResponseDto {
         private Long id;
