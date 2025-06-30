@@ -26,7 +26,6 @@ public class BookInitDb {
         initService.memberInit();
         initService.shelfInit();
         initService.memberBookInit();
-        initService.shelfBookInit();
     }
 
     @Component
@@ -76,24 +75,25 @@ public class BookInitDb {
         public void shelfInit() {
             Member userA = em.find(Member.class, 1);
             Member userB = em.find(Member.class, 2);
-            Shelf shelfA = new Shelf("shelfA", userA, "userA의 shelfA");
-            em.persist(shelfA);
-            Shelf shelfB = new Shelf("shelfB", userB,"userB의 shelfB");
-            em.persist(shelfB);
+            Bookshelf bookshelf1 = new Bookshelf(userA, "userA의 안방 책장 1번");
+            Bookshelf bookshelf2 = new Bookshelf(userA, "userA의 거실 책장 1번");
+            Bookshelf bookshelf3 = new Bookshelf(userB, "userB의 안방 책장 1번");
+            Bookshelf bookshelf4 = new Bookshelf(userB, "userB의 거실 책장 1번");
 
-            Shelf shelfC = new Shelf("민음사A", userA, "userA의 민음사A");
-            Shelf shelfD = new Shelf("민음사B", userA, "userA의 민음사B");
-            em.persist(shelfC);
-            em.persist(shelfD);
+            em.persist(bookshelf1);
+            em.persist(bookshelf2);
+            em.persist(bookshelf3);
+            em.persist(bookshelf4);
 
-            MemberShelf memberShelf1 = new MemberShelf(userA, shelfA);
-            MemberShelf memberShelf2 = new MemberShelf(userB, shelfB);
+            ShelfNew shelfNew1 = new ShelfNew(bookshelf1, 1);
+            ShelfNew shelfNew2 = new ShelfNew(bookshelf2, 1);
+            ShelfNew shelfNew3 = new ShelfNew(bookshelf3, 1);
+            ShelfNew shelfNew4 = new ShelfNew(bookshelf4, 1);
 
-            em.persist(memberShelf1);
-            em.persist(memberShelf2);
-
-            MemberShelf memberShelfAdd = new MemberShelf(userA, shelfB);
-            em.persist(memberShelfAdd);
+            em.persist(shelfNew1);
+            em.persist(shelfNew2);
+            em.persist(shelfNew3);
+            em.persist(shelfNew4);
         }
 
         public void memberBookInit(){
@@ -102,25 +102,31 @@ public class BookInitDb {
             Book book1 = em.find(Book.class, 1);
             Book book2 = em.find(Book.class, 2);
 
-            MemberBook memberBook1 = new MemberBook(userA, book1);
-            em.persist(memberBook1);
-            MemberBook memberBook2 = new MemberBook(userB, book2);
-            em.persist(memberBook2);
-        }
+            MemberBookNew memberBookNew1 = new MemberBookNew(userA, book1);
+            MemberBookNew memberBookNew2 = new MemberBookNew(userA, book2);
+            MemberBookNew memberBookNew3 = new MemberBookNew(userB, book1);
+            MemberBookNew memberBookNew4 = new MemberBookNew(userB, book2);
 
-        public void shelfBookInit() {
-            Shelf shelf1 = em.find(Shelf.class, 1);
-            Shelf shelf2 = em.find(Shelf.class, 2);
+            em.persist(memberBookNew1);
+            em.persist(memberBookNew2);
+            em.persist(memberBookNew3);
+            em.persist(memberBookNew4);
 
-            Book book1 = em.find(Book.class, 1);
-            Book book2 = em.find(Book.class, 2);
+            Bookshelf bookshelf1 = em.find(Bookshelf.class, 1);
+            Bookshelf bookshelf2 = em.find(Bookshelf.class, 2);
+            Bookshelf bookshelf3 = em.find(Bookshelf.class, 3);
+            Bookshelf bookshelf4 = em.find(Bookshelf.class, 4);
 
-            ShelfBook shelfBookA = new ShelfBook(book1, shelf1);
-            em.persist(shelfBookA);
-            ShelfBook shelfBookB = new ShelfBook(book2, shelf1);
-            em.persist(shelfBookB);
-            ShelfBook shelfBookC = new ShelfBook(book2, shelf2);
-            em.persist(shelfBookC);
+            ShelfNew shelfNew1 = em.find(ShelfNew.class, 1);
+            ShelfNew shelfNew2 = em.find(ShelfNew.class, 2);
+            ShelfNew shelfNew3 = em.find(ShelfNew.class, 3);
+            ShelfNew shelfNew4 = em.find(ShelfNew.class, 4);
+
+            memberBookNew1.updateLocation(bookshelf1, shelfNew1);
+            memberBookNew2.updateLocation(bookshelf2, shelfNew2);
+            memberBookNew3.updateLocation(bookshelf3, shelfNew3);
+            memberBookNew4.updateLocation(bookshelf4, shelfNew4);
+
         }
 
     }
