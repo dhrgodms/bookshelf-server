@@ -25,16 +25,28 @@ public class Bookshelf extends BaseTimeEntity{
     @OneToMany(mappedBy = "bookshelf", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShelfNew> shelves = new ArrayList<>();
 
+    @Column(name="bookshelf_color")
+    private String bookshelfColor;
+
+    @Column(name = "notes", columnDefinition = "TEXT")
+    private String notes;
+
     public Bookshelf(Member member, String bookshelfName) {
         this.member = member;
         this.bookshelfName = bookshelfName;
     }
 
-    public Bookshelf(Bookshelf bookshelf) {
-        this.id = bookshelf.getId();
-        this.member = bookshelf.getMember();
-        this.bookshelfName = bookshelf.getBookshelfName();
-        this.shelves = bookshelf.getShelves();
+    public Bookshelf(Member member, String bookshelfName, String bookshelfColor) {
+        this.member = member;
+        this.bookshelfName = bookshelfName;
+        this.bookshelfColor = bookshelfColor;
+    }
+
+    public Bookshelf(Member member, String bookshelfName, String bookshelfColor, String notes) {
+        this.member = member;
+        this.bookshelfName = bookshelfName;
+        this.bookshelfColor = bookshelfColor;
+        this.notes = notes;
     }
 
     public void addShelf(ShelfNew shelf) {

@@ -75,10 +75,10 @@ public class BookInitDb {
         public void shelfInit() {
             Member userA = em.find(Member.class, 1);
             Member userB = em.find(Member.class, 2);
-            Bookshelf bookshelf1 = new Bookshelf(userA, "userA의 안방 책장 1번");
-            Bookshelf bookshelf2 = new Bookshelf(userA, "userA의 거실 책장 1번");
-            Bookshelf bookshelf3 = new Bookshelf(userB, "userB의 안방 책장 1번");
-            Bookshelf bookshelf4 = new Bookshelf(userB, "userB의 거실 책장 1번");
+            Bookshelf bookshelf1 = new Bookshelf(userA, "userA의 안방 책장 1번", "#606c38");
+            Bookshelf bookshelf2 = new Bookshelf(userA, "userA의 거실 책장 1번", "#283618");
+            Bookshelf bookshelf3 = new Bookshelf(userB, "userB의 안방 책장 1번", "#fefae0");
+            Bookshelf bookshelf4 = new Bookshelf(userB, "userB의 거실 책장 1번", "#dda15e");
 
             em.persist(bookshelf1);
             em.persist(bookshelf2);

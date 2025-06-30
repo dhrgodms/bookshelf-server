@@ -25,9 +25,16 @@ public class ShelfNew extends BaseTimeEntity {
     @Column(name = "shelf_custom_name")
     private String shelfCustomName;
 
+
     public ShelfNew(Bookshelf bookshelf, Integer shelfPosition) {
         this.bookshelf = bookshelf;
         this.shelfPosition = shelfPosition;
+    }
+
+    public ShelfNew(Bookshelf bookshelf, Integer shelfPosition, String shelfCustomName) {
+        this.bookshelf = bookshelf;
+        this.shelfPosition = shelfPosition;
+        this.shelfCustomName = shelfCustomName;
     }
 
     public void setShelfCustomName(String shelfCustomName) {
@@ -37,4 +44,5 @@ public class ShelfNew extends BaseTimeEntity {
     public void setBookshelf(Bookshelf bookshelf) {
         this.bookshelf = bookshelf;
     }
+
 }

@@ -35,6 +35,8 @@ public class MemberBookNewController {
         return null;
     }
 
+
+
     //like 조회 TODO thumb 전용 테이블로 이전
     @GetMapping("/thumb")
     public ResponseEntity<Page<MemberBookDto>> getAllThumb(@RequestBody MemberDto memberDto, Pageable pageable) {
@@ -48,16 +50,23 @@ public class MemberBookNewController {
         return ResponseEntity.ok(memberBookNewService.getMemberBookById(id));
     }
 
+//    // 책 저장하기
+//    @PostMapping
+//    public ResponseEntity<String> have(@RequestBody BookKeepRequestDto dto){
+//        return ResponseEntity.ok(memberBookNewService.haveMemberBook(dto));
+//    }
+
     // 책 저장하기
     @PostMapping
     public ResponseEntity<String> have(@RequestBody BookKeepRequestDto dto){
-        return ResponseEntity.ok(memberBookNewService.haveMemberBook(dto));
+        return ResponseEntity.ok(memberBookNewService.ownMemberBook(dto));
     }
 
 
     // 책 좋아요 누르기
     @PostMapping("/like")
     public ResponseEntity<String> like(@RequestBody BookKeepRequestDto dto){
-        return ResponseEntity.ok(memberBookNewService.likeMemberBook(dto));
+//        return ResponseEntity.ok(memberBookNewService.likeMemberBook(dto));
+        return null;
     }
 }

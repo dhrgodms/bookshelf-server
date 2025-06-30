@@ -1,6 +1,5 @@
 package bookshelf.renewal.dto;
 
-import bookshelf.renewal.domain.Bookshelf;
 import bookshelf.renewal.domain.ShelfNew;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
@@ -17,9 +16,8 @@ public class ShelfNewDto {
     private LocalDateTime lastModifiedDate;
 
     @QueryProjection
-    public ShelfNewDto(Long id, Bookshelf bookshelf, Integer shelfPosition, String shelfCustomName, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
-        this.id = id;
-        this.bookshelfId = bookshelf.getId();
+    public ShelfNewDto(Long bookshelfId, Integer shelfPosition, String shelfCustomName, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+        this.bookshelfId = bookshelfId;
         this.shelfPosition = shelfPosition;
         this.shelfCustomName = shelfCustomName;
         this.createdDate = createdDate;

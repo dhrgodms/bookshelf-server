@@ -1,6 +1,6 @@
 package bookshelf.renewal.repository;
 
-import bookshelf.renewal.domain.MemberBookNew;
+import bookshelf.renewal.domain.*;
 import bookshelf.renewal.repository.custom.MemberBookNewCustomRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,5 +11,7 @@ public interface MemberBookNewRepository extends JpaRepository<MemberBookNew, Lo
     Page<MemberBookNew> findAllMemberBooks(Pageable pageable);
 
     Page<MemberBookNew> findAllByMember(String username, Pageable pageable);
+
+    boolean existsByMemberAndBookAndBookshelfAndShelfNew(Member member, Book book, Bookshelf bookshelf, ShelfNew shelf);
 }
 

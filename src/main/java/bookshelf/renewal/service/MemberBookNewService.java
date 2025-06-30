@@ -6,14 +6,19 @@ import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.dto.request.BookKeepRequestDto;
 import bookshelf.renewal.exception.MemberBookNotExistException;
 import bookshelf.renewal.exception.ShelfBookNotExistException;
+import bookshelf.renewal.repository.BookshelfRepository;
 import bookshelf.renewal.repository.MemberBookNewRepository;
 import bookshelf.renewal.repository.ShelfNewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -26,48 +31,49 @@ public class MemberBookNewService {
     private final MemberService memberService;
 
     @Transactional
-    public String haveMemberBook(BookKeepRequestDto dto) {
+    public String ownMemberBook(BookKeepRequestDto dto) {
+        List<Pair<Long, Long>> locationList = dto.getLocation().stream()
+                .map(s -> {
+                    String[] split = s.split("-");
+                    return Pair.of(Long.valueOf(split[0]), Long.valueOf(split[1]));
+                })
+                .toList();
 
-        MemberBookNew memberBook = null;
-        Bookshelf findBookshelf = bookshelfRepository.findById(dto.getBookshelfId()).orElseThrow(()->new ShelfBookNotExistException(dto.getBookshelfId()));
-        ShelfNew findShelf = shelfNewRepository.findById(dto.getShelfId()).orElseThrow(()->new ShelfBookNotExistException(dto.getShelfId()));
+        Member member = memberService.getMemberByUsername(dto.getUsername());
+        Book book = bookService.getFindBook(dto.getBookDto());
 
+        List<String> savedLogs = new ArrayList<>();
 
-        try {
-            memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
-            memberBook.updateLocation(findBookshelf, findShelf);
+        for (Pair<Long, Long> pair : locationList) {
+            Long bookshelfId = pair.getLeft();
+            Long shelfId = pair.getRight();
 
-        } catch (NullPointerException e){
-            Member findMember = memberService.getMemberByUsername(dto.getUsername());
-            Book findBook = bookService.getFindBook(dto.getBookDto());
-            memberBook = saveMemberBook(findMember, findBook, findBookshelf, findShelf);
+            Bookshelf bookshelf = bookshelfRepository.findById(bookshelfId)
+                    .orElseThrow(() -> new ShelfBookNotExistException(bookshelfId));
+            ShelfNew shelf = shelfNewRepository.findById(shelfId)
+                    .orElseThrow(() -> new ShelfBookNotExistException(shelfId));
+
+            // ✅ (username, isbn, bookshelfId, shelfId) 조합으로 중복 검사
+            boolean alreadyExists = memberBookNewRepository.existsByMemberAndBookAndBookshelfAndShelfNew(
+                    member, book, bookshelf, shelf
+            );
+
+            if (alreadyExists) {
+                log.info("[중복 위치] 이미 소유한 책 위치: {}, {}", bookshelf.getId(), shelf.getId());
+                continue;
+            }
+
+            MemberBookNew memberBook = saveMemberBook(member, book, bookshelf, shelf);
+            String logMsg = "[책 저장] " + book.getTitle() + " of " + member.getUsername() + " at (" + bookshelfId + "-" + shelfId + ")";
+            log.info(logMsg);
+            savedLogs.add(logMsg);
         }
 
-        log.info("[책 저장] {} of {}", memberBook.getBook().getTitle(), memberBook.getMember().getUsername());
-
-        return "[책 저장] " + memberBook.getBook().getTitle() + " of " + memberBook.getMember().getUsername();
-    }
-
-    @Transactional
-    public String likeMemberBook(BookKeepRequestDto dto) {
-        //검색
-        MemberBookNew memberBook = null;
-        Bookshelf findBookshelf = bookshelfRepository.findById(dto.getBookshelfId()).orElseThrow(()->new ShelfBookNotExistException(dto.getBookshelfId()));
-        ShelfNew findShelf = shelfNewRepository.findById(dto.getShelfId()).orElseThrow(()->new ShelfBookNotExistException(dto.getShelfId()));
-
-        try {
-            memberBook = getMemberBookByMemberAndBook(dto.getUsername(), dto.getBookDto().getIsbn());
-            memberBook.updateLocation(findBookshelf, findShelf);
-
-        } catch (NullPointerException e){
-            Member findMember = memberService.getMemberByUsername(dto.getUsername());
-            Book findBook = bookService.getFindBook(dto.getBookDto());
-            memberBook = saveMemberBook(findMember, findBook, findBookshelf, findShelf);
+        if (savedLogs.isEmpty()) {
+            return "[책 저장] 중복된 위치로 인해 새로 저장된 책이 없습니다.";
         }
 
-        log.info("[책 저장] {} of {}", memberBook.getBook().getTitle(), memberBook.getMember().getUsername());
-
-        return "[책 저장] " + memberBook.getBook().getTitle() + " of " + memberBook.getMember().getUsername();
+        return String.join("\n", savedLogs);
     }
 
 
