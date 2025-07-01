@@ -29,32 +29,22 @@ public class MemberBookNewController {
         return ResponseEntity.ok(memberBookNewService.getMemberBookDtosByMember(memberDto, pageable));
     }
 
-    @PostMapping("/have")
-    public ResponseEntity<Page<MemberBookDto>> getAllHave(@RequestBody MemberDto memberDto, Pageable pageable) {
-//        return ResponseEntity.ok(memberBookNewService.getMemberBooksByMemberAndHave(memberDto, pageable));
-        return null;
-    }
-
-
-
-    //like 조회 TODO thumb 전용 테이블로 이전
-    @GetMapping("/thumb")
-    public ResponseEntity<Page<MemberBookDto>> getAllThumb(@RequestBody MemberDto memberDto, Pageable pageable) {
-//        return ResponseEntity.ok(memberBookNewService.getMemberBooksByMemberAndThumb(memberDto, pageable));
-        return null;
-    }
-
     //단건 조회
     @GetMapping("/{id}")
     public ResponseEntity<MemberBookNewDto> get(@PathVariable("id") Long id) {
         return ResponseEntity.ok(memberBookNewService.getMemberBookById(id));
     }
 
-//    // 책 저장하기
-//    @PostMapping
-//    public ResponseEntity<String> have(@RequestBody BookKeepRequestDto dto){
-//        return ResponseEntity.ok(memberBookNewService.haveMemberBook(dto));
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(memberBookNewService.deleteMemberBookById(id));
+    }
+
+    @PostMapping("/have")
+    public ResponseEntity<Page<MemberBookDto>> getAllHave(@RequestBody MemberDto memberDto, Pageable pageable) {
+//        return ResponseEntity.ok(memberBookNewService.getMemberBooksByMemberAndHave(memberDto, pageable));
+        return null;
+    }
 
     // 책 저장하기
     @PostMapping
@@ -62,6 +52,12 @@ public class MemberBookNewController {
         return ResponseEntity.ok(memberBookNewService.ownMemberBook(dto));
     }
 
+    //like 조회 TODO thumb 전용 테이블로 이전
+    @GetMapping("/thumb")
+    public ResponseEntity<Page<MemberBookDto>> getAllThumb(@RequestBody MemberDto memberDto, Pageable pageable) {
+//        return ResponseEntity.ok(memberBookNewService.getMemberBooksByMemberAndThumb(memberDto, pageable));
+        return null;
+    }
 
     // 책 좋아요 누르기
     @PostMapping("/like")

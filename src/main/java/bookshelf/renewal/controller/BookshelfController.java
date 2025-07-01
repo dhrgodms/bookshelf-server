@@ -1,7 +1,6 @@
 package bookshelf.renewal.controller;
 
 import bookshelf.renewal.dto.BookshelfDto;
-import bookshelf.renewal.dto.MemberBookNewDto;
 import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.dto.request.BookshelfCreateDto;
 import bookshelf.renewal.repository.BookshelfRepository;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/bookshelves")
@@ -27,9 +27,14 @@ public class BookshelfController {
         return ResponseEntity.ok(bookshelfService.getAll(pageable));
     }
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity<List<MemberBookNewDto>> getById(@PathVariable("id") Long id){
+//        return ResponseEntity.ok(bookshelfService.getById(id));
+//    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<List<MemberBookNewDto>> getById(@PathVariable("id") Long id){
-        return ResponseEntity.ok(bookshelfService.getById(id));
+    public ResponseEntity<Map<String, Object>> getById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(bookshelfService.getMapById(id));
     }
 
     @PostMapping

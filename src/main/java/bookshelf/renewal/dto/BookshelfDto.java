@@ -15,6 +15,7 @@ public class BookshelfDto {
     private String bookshelfName;
     private List<ShelfNewSimpleDto> shelves = new ArrayList<>();
     private String bookshelfColor;
+    private String notes;
     private Long bookshelfBookCount;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
@@ -22,12 +23,13 @@ public class BookshelfDto {
 
 
     public BookshelfDto(Long id, String member, String bookshelfName,
-                        String bookshelfColor, Long bookshelfBookCount,
+                        String bookshelfColor, String notes, Long bookshelfBookCount,
                         LocalDateTime createdDate, LocalDateTime lastModifiedDate, String recentBookCover) {
         this.id = id;
         this.member = member;
         this.bookshelfName = bookshelfName;
         this.bookshelfColor = bookshelfColor;
+        this.notes = notes;
         this.bookshelfBookCount = bookshelfBookCount;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
@@ -39,6 +41,7 @@ public class BookshelfDto {
         this.member = bookshelf.getMember().getUsername();
         this.bookshelfName = bookshelf.getBookshelfName();
         this.bookshelfColor = bookshelf.getBookshelfColor();
+        this.notes = bookshelf.getNotes();
         this.createdDate = bookshelf.getCreatedDate();
         this.lastModifiedDate = bookshelf.getLastModifiedDate();
     }

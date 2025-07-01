@@ -26,6 +26,7 @@ public class ShelfNew extends BaseTimeEntity {
     private String shelfCustomName;
 
 
+
     public ShelfNew(Bookshelf bookshelf, Integer shelfPosition) {
         this.bookshelf = bookshelf;
         this.shelfPosition = shelfPosition;

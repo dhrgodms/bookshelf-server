@@ -13,10 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -101,13 +98,41 @@ public class BookshelfCustomRepositoryImpl implements BookshelfCustomRepository{
     }
 
     @Override
+    public Map<String, Object> findBookShelfMapById(Long id) {
+        // 먼저 bookshelf 정보를 가져옴
+        Bookshelf bookshelf = jpaQueryFactory
+                .selectFrom(bs)
+                .where(bs.id.eq(id))
+                .fetchOne();
+
+        // 그 다음 memberbooks 정보를 가져옴
+        List<MemberBookNew> memberBooks = jpaQueryFactory
+                .selectFrom(mb)
+                .join(mb.book, b).fetchJoin()
+                .join(mb.member, m)
+                .join(mb.bookshelf, bs).fetchJoin()
+                .join(mb.shelfNew, sn).fetchJoin()
+                .where(bs.id.eq(id))
+                .fetch();
+
+        // 결과를 Map으로 묶어서 반환
+        Map<String, Object> result = new HashMap<>();
+        result.put("bookshelf", bookshelf);
+        result.put("memberBooks", memberBooks);
+
+        return result;
+    }
+
+    @Override
     public List<BookshelfDto> findBookshelvesByMemberWithCount(String username, Pageable pageable) {
+
         List<BookshelfShelfFlatDto> flats = jpaQueryFactory
                 .select(Projections.constructor(BookshelfShelfFlatDto.class,
                         bs.id,
                         m.username,
                         bs.bookshelfName,
                         bs.bookshelfColor,
+                        bs.notes,
                         JPAExpressions.select(mb.count())
                                 .from(mb)
                                 .where(mb.bookshelf.id.eq(bs.id)),
@@ -120,10 +145,14 @@ public class BookshelfCustomRepositoryImpl implements BookshelfCustomRepository{
                                 .select(b.cover)
                                 .from(mb)
                                 .join(mb.book, b)
-                                .where(mb.bookshelf.id.eq(bs.id))
-                                .orderBy(mb.createdDate.desc())
-                                .limit(1)
-                        ))
+                                .where(mb.id.eq(
+                                        JPAExpressions
+                                                .select(mb.id.max())
+                                                .from(QMemberBookNew.memberBookNew)
+                                                .where(QMemberBookNew.memberBookNew.bookshelf.id.eq(bs.id))
+                                ))
+
+                ))
                 .from(bs)
                 .join(bs.member, m)
                 .leftJoin(bs.shelves, sn)
@@ -139,6 +168,7 @@ public class BookshelfCustomRepositoryImpl implements BookshelfCustomRepository{
                             flat.username(),
                             flat.bookshelfName(),
                             flat.bookshelfColor(),
+                            flat.notes(),
                             flat.bookshelfBookCount() != null ? flat.bookshelfBookCount() : 0L,
                             flat.createdDate(),
                             flat.lastModifiedDate(),

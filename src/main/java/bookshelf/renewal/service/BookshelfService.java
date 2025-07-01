@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,5 +57,33 @@ public class BookshelfService {
                 mb.getCreatedDate(),
                 mb.getLastModifiedDate()
         )).collect(Collectors.toList());
+    }
+
+    public Map<String, Object> getMapById(Long id) {
+        Map<String, Object> results = bookshelfRepository.findBookShelfMapById(id);
+        List<MemberBookNew> memberbooks = (List<MemberBookNew>) results.get("memberBooks");
+
+        Map<String, Object> newResults = new HashMap<>();
+
+        List<MemberBookNewDto> memberbooksDto = memberbooks.stream().map(mb -> new MemberBookNewDto(
+                mb.getId(),
+                new BookDto(mb.getBook()),
+                new MemberDto(mb.getMember()),
+                new BookshelfDto(mb.getBookshelf()),
+                new ShelfNewDto(mb.getShelfNew()),
+                mb.getStatus(),
+                mb.getPurchaseDate(),
+                mb.getNotes(),
+                mb.getCreatedDate(),
+                mb.getLastModifiedDate()
+        )).collect(Collectors.toList());
+
+        Bookshelf bookshelf = (Bookshelf) results.get("bookshelf");
+        BookshelfDto bookshelfDto = new BookshelfDto(bookshelf);
+
+        newResults.put("bookshelf", bookshelfDto);
+        newResults.put("memberbooks", memberbooksDto);
+
+        return newResults;
     }
 }

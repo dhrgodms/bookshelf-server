@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookshelfCustomRepository {
 
@@ -14,4 +15,5 @@ public interface BookshelfCustomRepository {
     Page<BookshelfDto> findAllWithCount(Pageable pageable);
     List<MemberBookNew> findBookShelfById(Long id);
     List<BookshelfDto> findBookshelvesByMemberWithCount(String username, Pageable pageable);
+    Map<String, Object> findBookShelfMapById(Long id);
 }

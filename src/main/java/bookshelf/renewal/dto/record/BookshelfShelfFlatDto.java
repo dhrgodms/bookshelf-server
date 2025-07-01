@@ -7,6 +7,7 @@ public record BookshelfShelfFlatDto(
         String username,
         String bookshelfName,
         String bookshelfColor,
+        String notes,
         Long bookshelfBookCount,
         LocalDateTime createdDate,
         LocalDateTime lastModifiedDate,

@@ -99,4 +99,9 @@ public class MemberBookNewService {
         Page<MemberBookNew> results = memberBookNewRepository.findAllMemberBooks(pageable);
         return results.map(mb -> new MemberBookNewDto(mb));
     }
+
+    public String deleteMemberBookById(Long id) {
+        memberBookNewRepository.deleteById(id);
+        return "[책 제거 성공] " + id;
+    }
 }
