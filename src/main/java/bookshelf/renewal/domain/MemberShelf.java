@@ -1,8 +1,10 @@
 package bookshelf.renewal.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class MemberShelf extends BaseDetailEntity{
     @Id
     @GeneratedValue
@@ -38,4 +40,6 @@ public class MemberShelf extends BaseDetailEntity{
     public Shelf getShelf() {
         return shelf;
     }
+
+
 }

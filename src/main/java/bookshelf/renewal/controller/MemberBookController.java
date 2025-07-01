@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Depreciated
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/memberbooks")
@@ -23,7 +26,7 @@ public class MemberBookController {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMember(memberDto, pageable));
     }
 
-    @GetMapping("/have")
+    @PostMapping("/have")
     public ResponseEntity<Page<MemberBookDto>> getAllHave(@RequestBody MemberDto memberDto, Pageable pageable) {
         return ResponseEntity.ok(memberBookService.getMemberBooksByMemberAndHave(memberDto, pageable));
     }
@@ -45,6 +48,7 @@ public class MemberBookController {
     public ResponseEntity<String> have(@RequestBody BookSaveRequestDto dto){
         return ResponseEntity.ok(memberBookService.haveMemberBook(dto));
     }
+
 
     // 책 좋아요 누르기
     @PostMapping("/like")

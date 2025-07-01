@@ -1,6 +1,7 @@
 package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.Shelf;
+import bookshelf.renewal.dto.response.SimpleShelfBookDto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
@@ -15,8 +16,16 @@ public class ShelfDto {
     private MemberDto creator;
 //    private List<ShelfBook> shelfBooks = new ArrayList<>();
     private List<String> memberShelves = new ArrayList<>();
+    private List<BookDto> books = new ArrayList<>();
+    private List<SimpleShelfBookDto> shelfBooks = new ArrayList<>();
+    private PageInfoDto pageInfoDto;
 
     public ShelfDto() {
+    }
+
+    public ShelfDto(String shelfName, String shelfMemo) {
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
     }
 
     public ShelfDto(String shelfName, String shelfMemo, MemberDto creator, List<String> memberShelves) {
@@ -27,13 +36,22 @@ public class ShelfDto {
     }
 
     @QueryProjection
-    public ShelfDto(String shelfName, MemberDto creator) {
+    public ShelfDto(Long id, String shelfName, String shelfMemo) {
+        this.id = id;
         this.shelfName = shelfName;
-        this.creator = creator;
+        this.shelfMemo = shelfMemo;
     }
 
     @QueryProjection
     public ShelfDto(String shelfName, String shelfMemo, MemberDto creator) {
+        this.shelfName = shelfName;
+        this.shelfMemo = shelfMemo;
+        this.creator = creator;
+    }
+
+    @QueryProjection
+    public ShelfDto(Long id, String shelfName, String shelfMemo, MemberDto creator) {
+        this.id = id;
         this.shelfName = shelfName;
         this.shelfMemo = shelfMemo;
         this.creator = creator;

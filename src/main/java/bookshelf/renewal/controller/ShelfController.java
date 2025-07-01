@@ -1,10 +1,9 @@
 package bookshelf.renewal.controller;
 
 import bookshelf.renewal.dto.MemberDto;
-import bookshelf.renewal.dto.request.ShelfCreateDto;
 import bookshelf.renewal.dto.ShelfDto;
+import bookshelf.renewal.dto.request.ShelfCreateDto;
 import bookshelf.renewal.dto.request.ShelfUpdateDto;
-import bookshelf.renewal.repository.ShelfRepository;
 import bookshelf.renewal.service.ShelfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ShelfController {
 
-    private final ShelfRepository shelfRepository;
     private final ShelfService shelfService;
-
 
     //생성
     //전체 조회
@@ -58,5 +55,14 @@ public class ShelfController {
         return ResponseEntity.ok(shelfService.deleteShelf(id, memberDto));
     }
 
+    @PostMapping("/member")
+    public ResponseEntity<Page<ShelfDto>> getShelfByMember(@RequestBody MemberDto memberDto, Pageable pageable) {
+        return ResponseEntity.ok(shelfService.findShelvesByMember(memberDto, pageable));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<ShelfDto>> searchBookByKeyword(@RequestParam("q") String query, Pageable pageable) {
+        return ResponseEntity.ok(shelfService.searchShelvesByKeyword(query, pageable));
+    }
 
 }

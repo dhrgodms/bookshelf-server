@@ -42,4 +42,9 @@ public class BookController {
         Book book = bookService.getBookOrElseThrow(id);
         return ResponseEntity.ok(new BookDto(book));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<BookDto>> searchBookByKeyword(@RequestParam("q") String query, Pageable pageable) {
+        return ResponseEntity.ok(bookService.searchBookByKeyword(query, pageable));
+    }
 }
