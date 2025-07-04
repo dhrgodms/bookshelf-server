@@ -1,17 +1,39 @@
 package bookshelf.renewal.domain;
 
+import bookshelf.renewal.domain.enums.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member extends BaseTimeEntity{
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
+
     private String username;
+    @Column(unique = true)
     private String email;
+
     private String password;
+    private String picture = null;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_role")
+    private Role role = Role.USER;
+
+    public Member(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberShelf> memberShelves = new ArrayList<>();
@@ -22,13 +44,7 @@ public class Member extends BaseTimeEntity{
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Shelf> ownShelves = new ArrayList<>();
 
-    public Member(String username) {
-        this.username = username;
-    }
-
-    public Member() {
-    }
-
+    public Long getId(){return id;}
     public String getUsername() {
         return username;
     }
@@ -41,6 +57,10 @@ public class Member extends BaseTimeEntity{
         return password;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
     public void addMemberShelf(MemberShelf memberShelf) {
         this.memberShelves.add(memberShelf);
     }
@@ -51,5 +71,9 @@ public class Member extends BaseTimeEntity{
 
     public void addOwnShelf(Shelf shelf) {
         this.ownShelves.add(shelf);
+    }
+
+    public Role getRole() {
+        return this.role;
     }
 }

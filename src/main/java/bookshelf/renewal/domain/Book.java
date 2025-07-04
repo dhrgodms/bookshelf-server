@@ -1,9 +1,6 @@
 package bookshelf.renewal.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.util.List;
 public class Book extends BaseTimeEntity{
     @Id
     @GeneratedValue
+    @Column(name = "book_id")
     private Long id;
     private String title;
     private String author;

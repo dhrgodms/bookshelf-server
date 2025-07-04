@@ -9,6 +9,7 @@ import java.util.List;
 public class Shelf extends BaseDetailEntity{
     @Id
     @GeneratedValue
+    @Column(name = "shelf_id")
     private Long id;
     private String shelfName;
     private String shelfMemo;

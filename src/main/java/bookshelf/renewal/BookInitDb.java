@@ -66,9 +66,10 @@ public class BookInitDb {
         }
 
         public void memberInit(){
-            Member userA = new Member("userA");
+            Member userA = new Member("userA", "userA@naver.com", "123");
             em.persist(userA);
-            Member userB = new Member("userB");
+
+            Member userB = new Member("userB", "userB@naver.com", "123");
             em.persist(userB);
         }
 
