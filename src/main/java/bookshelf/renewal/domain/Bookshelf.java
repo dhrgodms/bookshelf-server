@@ -13,6 +13,7 @@ import java.util.List;
 public class Bookshelf extends BaseTimeEntity{
     @Id
     @GeneratedValue
+    @Column(name = "bookshelf_id")
     private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)

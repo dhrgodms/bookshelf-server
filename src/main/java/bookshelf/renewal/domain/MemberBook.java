@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class MemberBook extends BaseTimeEntity{
     @Id
     @GeneratedValue
+    @Column(name = "memberbook_id")
     private Long id;
     private String memo;
 
