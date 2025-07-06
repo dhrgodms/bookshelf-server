@@ -182,4 +182,64 @@ public class BookshelfCustomRepositoryImpl implements BookshelfCustomRepository{
 
         return new ArrayList<>(bookshelfMap.values());
     }
+
+    @Override
+    public List<BookshelfDto> findBookshelvesByMemberIdWithCount(Long memberId, Pageable pageable) {
+
+        List<BookshelfShelfFlatDto> flats = jpaQueryFactory
+                .select(Projections.constructor(BookshelfShelfFlatDto.class,
+                        bs.id,
+                        m.username,
+                        bs.bookshelfName,
+                        bs.bookshelfColor,
+                        bs.notes,
+                        JPAExpressions.select(mb.count())
+                                .from(mb)
+                                .where(mb.bookshelf.id.eq(bs.id)),
+                        bs.createdDate,
+                        bs.lastModifiedDate,
+                        sn.id,
+                        sn.shelfCustomName,
+
+                        JPAExpressions
+                                .select(b.cover)
+                                .from(mb)
+                                .join(mb.book, b)
+                                .where(mb.id.eq(
+                                        JPAExpressions
+                                                .select(mb.id.max())
+                                                .from(QMemberBookNew.memberBookNew)
+                                                .where(QMemberBookNew.memberBookNew.bookshelf.id.eq(bs.id))
+                                ))
+
+                ))
+                .from(bs)
+                .join(bs.member, m)
+                .leftJoin(bs.shelves, sn)
+                .where(m.id.eq(memberId))
+                .fetch();
+
+        Map<Long, BookshelfDto> bookshelfMap = new LinkedHashMap<>();
+
+        for (BookshelfShelfFlatDto flat : flats) {
+            BookshelfDto dto = bookshelfMap.computeIfAbsent(flat.bookshelfId(), id ->
+                    new BookshelfDto(
+                            flat.bookshelfId(),
+                            flat.username(),
+                            flat.bookshelfName(),
+                            flat.bookshelfColor(),
+                            flat.notes(),
+                            flat.bookshelfBookCount() != null ? flat.bookshelfBookCount() : 0L,
+                            flat.createdDate(),
+                            flat.lastModifiedDate(),
+                            flat.recentBookCover()
+                    ));
+            if (flat.shelfId() != null) {
+                dto.addShelf(new ShelfNewSimpleDto(flat.shelfId(), flat.shelfName()));
+            }
+        }
+
+
+        return new ArrayList<>(bookshelfMap.values());
+    }
 }

@@ -2,13 +2,17 @@ package bookshelf.renewal.dto;
 
 import bookshelf.renewal.domain.Bookshelf;
 import bookshelf.renewal.dto.record.ShelfNewSimpleDto;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookshelfDto {
     private Long id;
     private String member;
@@ -45,8 +49,6 @@ public class BookshelfDto {
         this.createdDate = bookshelf.getCreatedDate();
         this.lastModifiedDate = bookshelf.getLastModifiedDate();
     }
-
-
 
     public void addShelf(ShelfNewSimpleDto shelf) {
         this.shelves.add(shelf);

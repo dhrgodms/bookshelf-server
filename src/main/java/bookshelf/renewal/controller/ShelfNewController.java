@@ -1,6 +1,5 @@
 package bookshelf.renewal.controller;
 
-import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.dto.ShelfNewDto;
 import bookshelf.renewal.dto.request.ShelfNewCreateDto;
 import bookshelf.renewal.service.ShelfNewService;
@@ -38,8 +37,8 @@ public class ShelfNewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id, @RequestBody MemberDto memberDto) {
-        return ResponseEntity.ok(shelfNewService.deleteShelf(id, memberDto));
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(shelfNewService.deleteShelf(id));
     }
 
 }

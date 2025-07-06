@@ -34,6 +34,14 @@ public class Member extends BaseTimeEntity{
         this.password = password;
     }
 
+    public Member(Long id, String username, String email, String password, String picture, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.picture = picture;
+        this.role = role;
+    }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberShelf> memberShelves = new ArrayList<>();

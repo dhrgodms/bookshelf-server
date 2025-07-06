@@ -16,4 +16,6 @@ public interface BookshelfCustomRepository {
     List<MemberBookNew> findBookShelfById(Long id);
     List<BookshelfDto> findBookshelvesByMemberWithCount(String username, Pageable pageable);
     Map<String, Object> findBookShelfMapById(Long id);
+
+    List<BookshelfDto> findBookshelvesByMemberIdWithCount(Long memberId, Pageable pageable);
 }

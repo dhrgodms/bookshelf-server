@@ -1,7 +1,8 @@
 package bookshelf.renewal.controller;
 
+import bookshelf.renewal.common.auth.CustomUserDetails;
+import bookshelf.renewal.common.auth.SecurityUtil;
 import bookshelf.renewal.dto.BookshelfDto;
-import bookshelf.renewal.dto.MemberDto;
 import bookshelf.renewal.dto.request.BookshelfCreateDto;
 import bookshelf.renewal.repository.BookshelfRepository;
 import bookshelf.renewal.service.BookshelfService;
@@ -24,6 +25,7 @@ public class BookshelfController {
 
     @GetMapping
     public ResponseEntity<Page<BookshelfDto>> getAll(Pageable pageable){
+
         return ResponseEntity.ok(bookshelfService.getAll(pageable));
     }
 
@@ -43,9 +45,11 @@ public class BookshelfController {
     }
 
     @PostMapping("/member")
-    public ResponseEntity<List<BookshelfDto>> getAllByMember(@RequestBody MemberDto dto, Pageable pageable){
-        return ResponseEntity.ok(bookshelfService.getAllByMember(dto, pageable));
+    public ResponseEntity<List<BookshelfDto>> getAllByMember(Pageable pageable){
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        List<BookshelfDto> results = bookshelfService.getAllByMemberId(memberId, pageable);
+
+        return ResponseEntity.ok(results);
     }
-
-
 }
