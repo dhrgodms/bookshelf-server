@@ -1,5 +1,7 @@
 package bookshelf.renewal.service;
 
+import bookshelf.renewal.common.auth.CustomUserDetails;
+import bookshelf.renewal.common.auth.SecurityUtil;
 import bookshelf.renewal.domain.Bookshelf;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberBookNew;
@@ -26,17 +28,23 @@ public class BookshelfService {
     private final MemberService memberService;
 
     public String save(BookshelfCreateDto dto) {
-        Member findMember = memberService.getMemberByUsername(dto.getUsername());
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        Member findMember = memberService.getMemberById(memberId);
         Bookshelf bookshelf = new Bookshelf(findMember, dto.getBookshelfName(), dto.getBookshelfColor(), dto.getNotes());
 
         bookshelfRepository.save(bookshelf);
-        log.info("[책장 생성]: {} of  {}", dto.getBookshelfName(), dto.getUsername());
+        log.info("[책장 생성]: {} of  {}", dto.getBookshelfName(), memberId);
 
-        return "[책장 생성]: " + dto.getBookshelfName() + " of "+  dto.getUsername();
+        return "[책장 생성]: " + dto.getBookshelfName() + " of "+  memberId;
     }
 
     public List<BookshelfDto> getAllByMember(MemberDto dto, Pageable pageable) {
         return bookshelfRepository.findBookshelvesByMemberWithCount(dto.getUsername(), pageable);
+    }
+
+    public List<BookshelfDto> getAllByMemberId(Long memberId, Pageable pageable) {
+        return bookshelfRepository.findBookshelvesByMemberIdWithCount(memberId, pageable);
     }
 
     public Page<BookshelfDto> getAll(Pageable pageable) {

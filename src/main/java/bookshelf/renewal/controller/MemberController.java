@@ -29,7 +29,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         Member member = memberService.login(loginDto);
-        String token = jwtTokenProvider.createToken(member.getEmail(), member.getRole().toString());
+        String token = jwtTokenProvider.createToken(member.getId(), member.getRole().toString());
 
         HashMap<String, Object> memberInfo = new HashMap<>();
         memberInfo.put("token", token);
