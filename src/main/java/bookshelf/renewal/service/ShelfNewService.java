@@ -46,8 +46,9 @@ public class ShelfNewService {
         CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
         Long memberId = currentUserDetails.getMemberId();
 
-
-        // TODO 회원이 bookshelf 주인이 맞는지 확인하는 로직 추가하기
+        if(!findShelfNew.getBookshelf().getMember().getId().equals(memberId)){
+            throw new RuntimeException("책장의 주인이 아닙니다.");
+        }
 
         shelfNewRepository.delete(findShelfNew);
 

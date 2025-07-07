@@ -25,8 +25,8 @@ public class MemberBookNewController {
 
     //소장 전체 조회(Member에 따른 소장 도서 전체 조회)
     @PostMapping("/member")
-    public ResponseEntity<Page<MemberBookNewDto>> getAllByMember(@RequestBody MemberDto memberDto, Pageable pageable) {
-        return ResponseEntity.ok(memberBookNewService.getMemberBookDtosByMember(memberDto, pageable));
+    public ResponseEntity<Page<MemberBookNewDto>> getAllByMember(Pageable pageable) {
+        return ResponseEntity.ok(memberBookNewService.getMemberBookDtosByMember(pageable));
     }
 
     //단건 조회

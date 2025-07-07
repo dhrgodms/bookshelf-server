@@ -23,8 +23,8 @@ public class MemberShelfController {
 //    }
 
     @GetMapping
-    public ResponseEntity<Page<MemberShelfDto>> getAll(@RequestBody MemberDto memberDto, Pageable pageable) {
-        return ResponseEntity.ok(memberShelfService.getMemberShelvesByMember(memberDto, pageable));
+    public ResponseEntity<Page<MemberShelfDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(memberShelfService.getMemberShelvesByMember(pageable));
     }
 
     //단건 조회(id)
@@ -45,13 +45,13 @@ public class MemberShelfController {
     }
 
     @PostMapping("/own")
-    public ResponseEntity<Page<MemberShelfDto>> getAllOwn(@RequestBody MemberDto memberDto, Pageable pageable) {
-        return ResponseEntity.ok(memberShelfService.getMemberShelvesByOwnMember(memberDto, pageable));
+    public ResponseEntity<Page<MemberShelfDto>> getAllOwn(Pageable pageable) {
+        return ResponseEntity.ok(memberShelfService.getMemberShelvesByOwnMember( pageable));
     }
 
     @GetMapping("/subscribe")
-    public ResponseEntity<Page<MemberShelfDto>> getAllSubscribe(@RequestBody MemberDto memberDto, Pageable pageable) {
-        return ResponseEntity.ok(memberShelfService.getMemberShelvesBySubscribe(memberDto, pageable));
+    public ResponseEntity<Page<MemberShelfDto>> getAllSubscribe(Pageable pageable) {
+        return ResponseEntity.ok(memberShelfService.getMemberShelvesBySubscribe(pageable));
     }
 
 }

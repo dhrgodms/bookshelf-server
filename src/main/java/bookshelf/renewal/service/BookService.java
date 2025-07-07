@@ -20,7 +20,7 @@ public class BookService {
     public Book getFindBook(BookDto dto) {
         Book findBook = bookRepository.findByIsbn(dto.getIsbn())
                 .orElseGet(() -> {
-                    Book book = new Book(dto.getTitle(), dto.getAuthor(), dto.getPublisher(), dto.getIsbn(), dto.getSeriesName(), dto.getCover(), dto.getLink(), dto.getCategoryName(), dto.getPubdate());
+                    Book book = new Book(dto.getTitle(), dto.getAuthor(), dto.getPublisher(), dto.getIsbn(), dto.getSeriesName(), dto.getCover(), dto.getAladinUrl(), dto.getCategoryName(), dto.getPubdate());
                     return bookRepository.save(book);
                 });
         return findBook;
@@ -46,7 +46,7 @@ public class BookService {
                 bookDto.getIsbn(),
                 bookDto.getSeriesName(),
                 bookDto.getCover(),
-                bookDto.getLink(),
+                bookDto.getAladinUrl(),
                 bookDto.getCategoryName(),
                 bookDto.getPubdate()
         );

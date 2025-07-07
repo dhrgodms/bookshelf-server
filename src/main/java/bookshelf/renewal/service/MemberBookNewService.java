@@ -1,5 +1,7 @@
 package bookshelf.renewal.service;
 
+import bookshelf.renewal.common.auth.CustomUserDetails;
+import bookshelf.renewal.common.auth.SecurityUtil;
 import bookshelf.renewal.domain.*;
 import bookshelf.renewal.dto.MemberBookNewDto;
 import bookshelf.renewal.dto.MemberDto;
@@ -39,7 +41,10 @@ public class MemberBookNewService {
                 })
                 .toList();
 
-        Member member = memberService.getMemberByUsername(dto.getUsername());
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+
+        Member member = memberService.getMemberById(memberId);
         Book book = bookService.getFindBook(dto.getBookDto());
 
         List<String> savedLogs = new ArrayList<>();
@@ -85,9 +90,10 @@ public class MemberBookNewService {
         return memberBookNewRepository.findMemberBookByMemberAndBook(username, isbn).orElseThrow(() -> new MemberBookNotExistException(username, isbn));
     }
 
-    public Page<MemberBookNewDto> getMemberBookDtosByMember(MemberDto memberDto, Pageable pageable) {
-        log.info("username={}", memberDto.getUsername());
-        Page<MemberBookNew> results = memberBookNewRepository.findAllByMember(memberDto.getUsername(), pageable);
+    public Page<MemberBookNewDto> getMemberBookDtosByMember(Pageable pageable) {
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        Page<MemberBookNew> results = memberBookNewRepository.findAllByMemberId(memberId, pageable);
         return results.map(mb -> new MemberBookNewDto(mb));
     }
 

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,17 +36,17 @@ public class AladinController {
 
 
     @GetMapping
-    public ResponseEntity<?> searchBooks(@RequestParam String query, @RequestParam int page){
-        int maxResults = 40;
+    public ResponseEntity<?> searchBooks(@RequestParam String query, Pageable pageable){
+        int maxResults = 24;
         String url = apiUrl + "/ttb/api/ItemSearch.aspx?ttbkey=" + apiKey
                 + "&Query=" + query
-                + "&MaxResults=" + maxResults + "&start=" + page + "&Cover=Big&SearchTarget=Book&output=JS&Version=20131101";
+                + "&MaxResults=" + maxResults + "&start=" + 1 + "&Cover=Big&SearchTarget=Book&output=JS&Version=20131101";
 
         RestTemplate restTemplate = new RestTemplate();
         try{
             JsonNode response = restTemplate.getForObject(url, JsonNode.class);
             List<BookDto> filteredBooks = filterValidBooks(response.get("item"));
-            return ResponseEntity.ok(filteredBooks);
+            return ResponseEntity.ok(new PageImpl<>(filteredBooks, pageable, filteredBooks.size()));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching data from api");

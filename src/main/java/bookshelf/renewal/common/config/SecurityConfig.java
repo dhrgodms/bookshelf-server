@@ -1,10 +1,13 @@
 package bookshelf.renewal.common.config;
 
 import bookshelf.renewal.common.auth.JwtTokenFilter;
-import lombok.RequiredArgsConstructor;
+import bookshelf.renewal.common.auth.JwtTokenProvider;
+import bookshelf.renewal.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -18,10 +21,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-@RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtTokenFilter jwtTokenFilter;
+    @Value("${spring.jwt.secret}")
+    private String secretKey;
+
+    @Value("${spring.jwt.expiration}")
+    private int expiration;
+
+    @Bean
+    public JwtTokenProvider jwtTokenProvider() {
+        return new JwtTokenProvider(secretKey, expiration);
+    }
 
     @Bean
     public PasswordEncoder makePassword() {
@@ -29,7 +41,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain myFilter(HttpSecurity httpSecurity) throws Exception {
+    public JwtTokenFilter jwtTokenFilter(MemberRepository memberRepository) {
+        return new JwtTokenFilter(memberRepository);
+    }
+
+    @Bean
+    public SecurityFilterChain myFilter(HttpSecurity httpSecurity, JwtTokenFilter jwtTokenFilter) throws Exception {
         return httpSecurity
                 .cors(cors -> cors.configurationSource(configurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)

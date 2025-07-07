@@ -25,7 +25,7 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<MemberShelfDto> findAllByMember(String username, Pageable pageable) {
+    public Page<MemberShelfDto> findAllByMember(Long memberId, Pageable pageable) {
         QMemberShelf ms = memberShelf;
         QMember m = QMember.member;
         QShelf s = QShelf.shelf;
@@ -52,7 +52,7 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
     }
 
     @Override
-    public Page<MemberShelfDto> findAllOwnShelves(String username, Pageable pageable) {
+    public Page<MemberShelfDto> findAllOwnShelves(Long memberId, Pageable pageable) {
         QMemberShelf ms = memberShelf;
         QMember m = QMember.member;
         QShelf s = QShelf.shelf;
@@ -64,8 +64,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
                                 , new QShelfDto(s.id,s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username))
                         , ms.lastModifiedDate)
                 ).from(ms)
-                .where(ms.member.username.eq(username),
-                        ms.shelf.creator.username.eq(username))
+                .where(ms.member.id.eq(memberId),
+                        ms.shelf.creator.id.eq(memberId))
                 .join(ms.member, m)
                 .join(ms.shelf, s)
                 .fetch();
@@ -73,8 +73,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
         Long total = jpaQueryFactory
                 .select(ms.count())
                 .from(ms)
-                .where(ms.member.username.eq(username),
-                        ms.shelf.creator.username.eq(username))
+                .where(ms.member.id.eq(memberId),
+                        ms.shelf.creator.id.eq(memberId))
                 .join(ms.member, m)
                 .join(ms.shelf, s)
                 .fetchOne();
@@ -83,7 +83,7 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
     }
 
     @Override
-    public Page<MemberShelfDto> findAllNotCreator(String username,Pageable pageable) {
+    public Page<MemberShelfDto> findAllNotCreator(Long memberId,Pageable pageable) {
         QMemberShelf ms = memberShelf;
         QMember m = QMember.member;
         QShelf s = QShelf.shelf;
@@ -94,8 +94,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
                                 , new QMemberDto(m.username)
                                 , new QShelfDto(s.id,s.shelfName, s.shelfMemo, new QMemberDto(s.creator.username)), ms.lastModifiedDate)
                 ).from(ms)
-                .where(ms.member.username.eq(username),
-                        ms.shelf.creator.username.ne(username))
+                .where(ms.member.id.eq(memberId),
+                        ms.shelf.creator.id.ne(memberId))
                 .join(ms.member, m)
                 .join(ms.shelf, s)
                 .fetch();
@@ -103,8 +103,8 @@ public class MemberShelfCustomRepositoryImpl implements MemberShelfCustomReposit
         Long total = jpaQueryFactory
                 .select(ms.count())
                 .from(ms)
-                .where(ms.member.username.eq(username),
-                        ms.shelf.creator.username.ne(username))
+                .where(ms.member.id.eq(memberId),
+                        ms.shelf.creator.id.ne(memberId))
                 .join(ms.member, m)
                 .join(ms.shelf, s)
                 .fetchOne();

@@ -19,7 +19,7 @@ public class Book extends BaseTimeEntity{
     private String isbn;
     private String seriesName;
     private String cover;
-    private String link;
+    private String aladinUrl;
     private String categoryName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -40,14 +40,14 @@ public class Book extends BaseTimeEntity{
     }
 
 
-    public Book(String title, String author, String publisher, String isbn, String seriesName, String cover, String link, String categoryName, LocalDate pubdate) {
+    public Book(String title, String author, String publisher, String isbn, String seriesName, String cover, String aladinUrl, String categoryName, LocalDate pubdate) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.isbn = isbn;
         this.seriesName = seriesName;
         this.cover = cover;
-        this.link = link;
+        this.aladinUrl = aladinUrl;
         this.categoryName = categoryName;
         this.pubdate = pubdate;
     }
@@ -84,8 +84,8 @@ public class Book extends BaseTimeEntity{
         return categoryName;
     }
 
-    public String getLink() {
-        return link;
+    public String getAladinUrl() {
+        return aladinUrl;
     }
 
     public LocalDate getPubdate() {
