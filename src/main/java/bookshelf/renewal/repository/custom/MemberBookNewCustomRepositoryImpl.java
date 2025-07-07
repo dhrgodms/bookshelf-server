@@ -76,6 +76,36 @@ public class MemberBookNewCustomRepositoryImpl implements MemberBookNewCustomRep
     }
 
     @Override
+    public Page<MemberBookNew> findAllByMemberId(Long memberId, Pageable pageable) {
+        QMemberBookNew mb = QMemberBookNew.memberBookNew;
+        QMember m = QMember.member;
+        QBook b = QBook.book;
+        QBookshelf bs = QBookshelf.bookshelf;
+        QShelfNew sn = QShelfNew.shelfNew;
+
+        List<MemberBookNew> results = jpaQueryFactory
+                .selectFrom(mb)
+                .join(mb.book, b).fetchJoin()
+                .join(mb.member, m).fetchJoin()
+                .join(mb.bookshelf, bs).fetchJoin()
+                .join(mb.shelfNew, sn).fetchJoin()
+                .where(mb.member.id.eq(memberId))
+                .fetch();
+
+
+        Long total = jpaQueryFactory.select(mb.count())
+                .from(mb)
+                .join(mb.book, b)
+                .join(mb.member, m)
+                .join(mb.bookshelf, bs)
+                .join(mb.shelfNew, sn)
+                .where(mb.member.id.eq(memberId))
+                .fetchOne();
+
+        return new PageImpl<>(results, pageable, total);
+    }
+
+    @Override
     public Page<MemberBookNew> findAllByBook(Book book, Pageable pageable) {
         QMemberBookNew mb = QMemberBookNew.memberBookNew;
         QMember m = QMember.member;

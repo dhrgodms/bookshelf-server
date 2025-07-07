@@ -9,7 +9,6 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -17,18 +16,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilter {
 
     private final MemberRepository memberRepository;
+
+    public JwtTokenFilter(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Value("${spring.jwt.secret}")
     private String secretKey;
@@ -38,8 +38,13 @@ public class JwtTokenFilter extends GenericFilter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
+        // OPTIONS 요청은 인증/로직을 건너뛰고 바로 통과
+        if ("OPTIONS".equalsIgnoreCase(httpServletRequest.getMethod())) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         String token = httpServletRequest.getHeader("Authorization");
-        System.out.println("token = " + token);
 
         try {
             if (token != null) {
@@ -52,7 +57,6 @@ public class JwtTokenFilter extends GenericFilter {
                         .build()
                         .parseClaimsJws(jwtToken)
                         .getBody();
-                System.out.println("jwtToken = " + jwtToken);
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
 
@@ -66,16 +70,14 @@ public class JwtTokenFilter extends GenericFilter {
                 CustomUserDetails customUserDetails = new CustomUserDetails(member);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUserDetails, jwtToken, customUserDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
             }
-            filterChain.doFilter(servletRequest, servletResponse);
+            filterChain.doFilter(servletRequest, servletResponse); // 정상일 때만 호출
         } catch (Exception e) {
             e.printStackTrace();
             httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpServletResponse.setContentType("application/json");
             httpServletResponse.getWriter().write("Invalid Token");
+            return; // 예외 발생 시 더 이상 진행하지 않음
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }

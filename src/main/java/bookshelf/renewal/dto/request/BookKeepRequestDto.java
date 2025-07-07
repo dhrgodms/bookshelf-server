@@ -10,6 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 public class BookKeepRequestDto {
     private BookDto bookDto;
-    private String username;
     private List<String> location;
 }

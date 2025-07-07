@@ -18,7 +18,7 @@ public class BookDto {
     private String seriesName;
     private String cover;
     private String categoryName;
-    private String link;
+    private String aladinUrl;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pubdate;
@@ -31,7 +31,7 @@ public class BookDto {
     }
 
     @QueryProjection
-    public BookDto(String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String link, LocalDate pubdate) {
+    public BookDto(String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String aladinUrl, LocalDate pubdate) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
@@ -39,12 +39,12 @@ public class BookDto {
         this.seriesName = seriesName;
         this.cover = cover;
         this.categoryName = categoryName;
-        this.link = link;
+        this.aladinUrl = aladinUrl;
         this.pubdate = pubdate;
     }
 
     @QueryProjection
-    public BookDto(Long id, String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String link, LocalDate pubdate) {
+    public BookDto(Long id, String title, String author, String publisher, String isbn, String seriesName, String cover, String categoryName, String aladinUrl, LocalDate pubdate) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -53,7 +53,7 @@ public class BookDto {
         this.seriesName = seriesName;
         this.cover = cover;
         this.categoryName = categoryName;
-        this.link = link;
+        this.aladinUrl = aladinUrl;
         this.pubdate = pubdate;
     }
 
@@ -65,7 +65,7 @@ public class BookDto {
         this.seriesName = book.getSeriesName();
         this.cover = book.getCover();
         this.categoryName = book.getCategoryName();
-        this.link = book.getLink();
+        this.aladinUrl = book.getAladinUrl();
         this.pubdate = book.getPubdate();
     }
 
@@ -79,8 +79,8 @@ public class BookDto {
         String seriesName = book.has("seriesInfo") ? book.get("seriesInfo").get("seriesName").asText() : "";
         String cover = book.get("cover").asText();
         String categoryName = book.get("categoryName").asText();
-        String link = book.get("link").asText();
+        String aladinUrl = book.get("link").asText();
         String pubDate = book.get("pubDate").asText();
-        return new BookDto(title, author, publisher, isbn, seriesName, cover, categoryName, link, LocalDate.parse(pubDate));
+        return new BookDto(title, author, publisher, isbn, seriesName, cover, categoryName, aladinUrl, LocalDate.parse(pubDate));
     }
 }

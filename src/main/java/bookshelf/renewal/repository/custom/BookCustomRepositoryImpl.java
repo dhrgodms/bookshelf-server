@@ -59,7 +59,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
 
         //쿼리 실행
         List<BookDto> results = jpaQueryFactory
-                .select(new QBookDto(b.id, b.title, b.author, b.publisher, book.isbn, book.seriesName, book.cover, book.categoryName, b.link, b.pubdate)
+                .select(new QBookDto(b.id, b.title, b.author, b.publisher, b.isbn, b.seriesName, b.cover, b.categoryName, b.aladinUrl, b.pubdate)
                 ).from(b)
                 .where(predicate)
                 .offset(pageable.getOffset())
@@ -117,7 +117,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
         //쿼리 실행
         List<BookDto> results = jpaQueryFactory
                 .select(new QBookDto(
-                        book.id, book.title, book.author, book.publisher, book.isbn, book.seriesName, book.cover, book.categoryName, book.link, book.pubdate)
+                        book.id, book.title, book.author, book.publisher, book.isbn, book.seriesName, book.cover, book.categoryName, book.aladinUrl, book.pubdate)
                 ).from(b)
                 .where(builder)
                 .offset(pageable.getOffset())

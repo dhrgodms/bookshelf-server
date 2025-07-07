@@ -44,7 +44,7 @@ public class BookshelfController {
         return ResponseEntity.ok(bookshelfService.save(dto));
     }
 
-    @PostMapping("/member")
+    @GetMapping("/member")
     public ResponseEntity<List<BookshelfDto>> getAllByMember(Pageable pageable){
         CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
         Long memberId = currentUserDetails.getMemberId();

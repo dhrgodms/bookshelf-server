@@ -17,4 +17,6 @@ public interface MemberBookNewCustomRepository {
     Optional<MemberBookNew> findMemberBookById(Long id);
 
     Optional<MemberBookNew> findMemberBookByMemberAndBook(String username, String isbn);
+
+    Page<MemberBookNew> findAllByMemberId(Long memberId, Pageable pageable);
 }

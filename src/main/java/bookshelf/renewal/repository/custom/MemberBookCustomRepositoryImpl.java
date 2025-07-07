@@ -31,7 +31,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -60,7 +60,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -91,7 +91,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -122,7 +122,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -155,7 +155,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -188,7 +188,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have
@@ -228,7 +228,7 @@ public class MemberBookCustomRepositoryImpl implements MemberBookCustomRepositor
                         new QMemberBookDto(
                                 mb.id,
                                 mb.memo,
-                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.link, mb.book.pubdate),
+                                new QBookDto(mb.book.title, mb.book.author, mb.book.publisher, mb.book.isbn, mb.book.seriesName, mb.book.cover, mb.book.categoryName, mb.book.aladinUrl, mb.book.pubdate),
                                 new QMemberDto(m.username),
                                 mb.thumb,
                                 mb.have

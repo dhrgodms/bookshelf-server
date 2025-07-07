@@ -1,5 +1,7 @@
 package bookshelf.renewal.service;
 
+import bookshelf.renewal.common.auth.CustomUserDetails;
+import bookshelf.renewal.common.auth.SecurityUtil;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.domain.MemberShelf;
 import bookshelf.renewal.domain.Shelf;
@@ -22,8 +24,10 @@ public class MemberShelfService {
     private final ShelfService shelfService;
     private final MemberService memberService;
 
-    public Page<MemberShelfDto> getMemberShelvesByMember(MemberDto memberDto, Pageable pageable) {
-        return memberShelfRepository.findAllByMember(memberDto.getUsername(), pageable);
+    public Page<MemberShelfDto> getMemberShelvesByMember(Pageable pageable) {
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        return memberShelfRepository.findAllByMember(memberId, pageable);
     }
 
     public MemberShelf getMemberShelfById(Long id) {
@@ -49,8 +53,10 @@ public class MemberShelfService {
         return "[멤버책장 구독] " + findMember.getUsername() + " -> " + findShelf.getShelfName() + " of " + findShelf.getCreator().getUsername();
     }
 
-    public Page<MemberShelfDto> getMemberShelvesByOwnMember(MemberDto memberDto, Pageable pageable) {
-        return memberShelfRepository.findAllOwnShelves(memberDto.getUsername(), pageable);
+    public Page<MemberShelfDto> getMemberShelvesByOwnMember(Pageable pageable) {
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        return memberShelfRepository.findAllOwnShelves(memberId, pageable);
     }
 
     public Page<MemberShelfDto> getMemberShelvesByUsername(MemberDto memberDto, Pageable pageable) {
@@ -58,7 +64,9 @@ public class MemberShelfService {
         return all.map(MemberShelfDto::new);
     }
 
-    public Page<MemberShelfDto> getMemberShelvesBySubscribe(MemberDto memberDto, Pageable pageable) {
-        return memberShelfRepository.findAllNotCreator(memberDto.getUsername(), pageable);
+    public Page<MemberShelfDto> getMemberShelvesBySubscribe( Pageable pageable) {
+        CustomUserDetails currentUserDetails = SecurityUtil.getCurrentUserDetails();
+        Long memberId = currentUserDetails.getMemberId();
+        return memberShelfRepository.findAllNotCreator(memberId, pageable);
     }
 }

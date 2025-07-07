@@ -63,7 +63,7 @@ public class ShelfCustomRepositoryImpl implements ShelfCustomRepository{
                         b.seriesName,
                         b.cover,
                         b.categoryName,
-                        b.link,
+                        b.aladinUrl,
                         b.pubdate
                 ))
                 .from(sb)
@@ -118,7 +118,7 @@ public class ShelfCustomRepositoryImpl implements ShelfCustomRepository{
                                 b.seriesName,
                                 b.cover,
                                 b.categoryName,
-                                b.link,
+                                b.aladinUrl,
                                 b.pubdate
                         ))).from(sb)
                 .join(sb.shelf, s)
@@ -158,7 +158,7 @@ public class ShelfCustomRepositoryImpl implements ShelfCustomRepository{
                                 b.seriesName,
                                 b.cover,
                                 b.categoryName,
-                                b.link,
+                                b.aladinUrl,
                                 b.pubdate
                         ))).from(sb)
                 .join(sb.shelf, s)
