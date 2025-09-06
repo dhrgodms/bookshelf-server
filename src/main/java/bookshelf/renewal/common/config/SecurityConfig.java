@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,6 +48,13 @@ public class SecurityConfig {
     }
 
     @Bean
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            throw new UsernameNotFoundException("No in-memory user. Use JWT instead.");
+        };
+    }
+
+    @Bean
     public SecurityFilterChain myFilter(HttpSecurity httpSecurity, JwtTokenFilter jwtTokenFilter) throws Exception {
         return httpSecurity
                 .cors(cors -> cors.configurationSource(configurationSource()))
@@ -55,8 +64,9 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(a -> a.
-                        requestMatchers( "/swagger-ui/**","/v3/api-docs/**", "/join", "/login", "/logout" ,"/api/v1/**").permitAll()
-                        .anyRequest().authenticated())
+                        requestMatchers( "/", "/swagger-ui/**","/v3/api-docs/**", "/join", "/login", "/logout" ).permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
