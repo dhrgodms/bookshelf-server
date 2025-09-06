@@ -4,6 +4,7 @@ import bookshelf.renewal.common.auth.JwtTokenProvider;
 import bookshelf.renewal.domain.Member;
 import bookshelf.renewal.dto.JoinDto;
 import bookshelf.renewal.dto.LoginDto;
+import bookshelf.renewal.exception.MemberNotExistException;
 import bookshelf.renewal.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,16 +29,20 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        Member member = memberService.login(loginDto);
-        String token = jwtTokenProvider.createToken(member.getId(), member.getRole().toString());
+        try {
+            Member member = memberService.login(loginDto);
+            String token = jwtTokenProvider.createToken(member.getId(), member.getRole().toString());
 
-        HashMap<String, Object> memberInfo = new HashMap<>();
-        memberInfo.put("token", token);
-        memberInfo.put("email", member.getEmail());
-        memberInfo.put("username", member.getUsername());
-        memberInfo.put("id", member.getId());
+            HashMap<String, Object> memberInfo = new HashMap<>();
+            memberInfo.put("token", token);
+            memberInfo.put("email", member.getEmail());
+            memberInfo.put("username", member.getUsername());
+            memberInfo.put("id", member.getId());
 
-        return new ResponseEntity<>(memberInfo, HttpStatus.OK);
+            return new ResponseEntity<>(memberInfo, HttpStatus.OK);
+        } catch (MemberNotExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 
